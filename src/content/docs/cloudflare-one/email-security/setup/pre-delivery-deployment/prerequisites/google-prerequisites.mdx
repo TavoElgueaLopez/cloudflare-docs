@@ -1,0 +1,56 @@
+---
+title: Google Workspace as MX Record
+pcx_content_type: concept
+sidebar:
+  order: 4
+---
+
+In this tutorial, you will learn how to configure Google Workspace with Email Security as MX record.
+
+## Requirements
+
+- Provisioned Email Security account.
+- Access to the Google administrator console ([Google administrator console](https://admin.google.com/) > **Apps** > **Google Workspace** > **Gmail**).
+- Access to the domain nameserver hosting the MX records for the domains that will be processed by Email Security.
+
+## Set up Inbound Email Configuration
+
+On the [Google administrative console](https://admin.google.com/), set up [Inbound Email Configuration](https://support.google.com/a/answer/60730?hl=en) with the following details:
+    - In **Gateway IPs**, select the **Add** link, and add the IPs mentioned in [Egress IPs](cloudflare-one/email-security/setup/pre-delivery-deployment/egress-ips/).
+    - Select **Automatically detect external IP (recommended)**.
+    - Select **Require TLS for connections from the email gateways listed above**.
+
+## Set up an email quarantine
+
+[Set up an email quarantine](https://support.google.com/a/answer/6104172?hl=en#:~:text=Sign%20in%20with%20an%20administrator,t%20access%20the%20Admin%20console.&text=Manage%20quarantines.,Click%20Add%20Quarantine.):
+    - In the quarantine configuration pop-up, enter the following details:
+        1. **Name**: Email Security Malicious.
+        2. **Description**: Email Security Malicious.
+        3. For the **Inbound denial consequence**, select **Drop message**.
+        4. For the **Outbound denial consequence**, select **Drop message**.
+
+## Create a content compliance filter
+
+Create a [content compliance filter](https://support.google.com/a/answer/1346934?hl=en#zippy=%2Cstep-go-to-gmail-compliance-settings-in-the-google-admin-console%2Cstep-enter-email-messages-to-affect) to send malicious messages to quarantine:
+    - **Name**: `Quarantine Email Security Malicious`.
+    - **In 1**: Email message to affect, select **Inbound**.
+    - **In 2**: **Add expressions that describe the content you want to search for in each message**:
+        - Select **Add** to add the condition.
+        - In **Simple content match**, select **Advanced content match**.
+        - In **Location**, select **Full headers**.
+        - In **Match type**, select **Contains text**.
+        - In **Content**, enter `X-EmailSecurity-Disposition: MALICIOUS`.
+        - Select **SAVE** to save the condition.
+    - In 3. **If the above expression match, do the following**, select **Quarantine message** and the **Email Security Malicious quarantine** that was created in the previous step.
+        - Select **SAVE**.
+
+If you would like to quarantine the other dispositions, repeat the above steps and use the following strings for the other dispositions:
+
+- `X-EmailSecurity-Disposition: MALICIOUS`
+- `X-EmailSecurity-Disposition: SUSPICIOUS`
+- `X-EmailSecurity-Disposition: SPOOF`
+- `X-EmailSecurity-Disposition: UCE`
+
+If desired, you can create a separate quarantine for each of the dispositions.
+
+Now that you have completed the prerequisite steps, you can set up [MX/Inline](/cloudflare-one/email-security/setup/pre-delivery-deployment/inline-deployment-setup/) on the Cloudflare dashboard.
