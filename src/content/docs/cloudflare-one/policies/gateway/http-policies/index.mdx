@@ -167,6 +167,47 @@ API value: `redirect`
 
 {/* TODO: get available selectors */}
 
+**Traffic**
+
+- [Application](#application)
+- [Content Categories](#content-categories)
+- [Destination Continent IP Geolocation](#destination-continent)
+- [Destination Country IP Geolocation](#destination-country)
+- [Destination IP](#destination-ip)
+- [DLP Profile](#dlp-profile)
+- [Domain](#domain)
+- [Download File Types](#download-and-upload-file-types)
+- [Download Mime Type](#download-and-upload-mime-type)
+- [Host](#host)
+- [HTTP Method](#http-method)
+- [HTTP Response](#http-response)
+- [Proxy Endpoint](#proxy-endpoint)
+- [Security Risks](#security-risks)
+- [Source Continent IP Geolocation](#source-continent)
+- [Source Country IP Geolocation](#source-country)
+- [Source Internal IP](#source-internal-ip)
+- [Source IP](#source-ip)
+- [Upload File Types](#download-and-upload-file-types)
+- [Upload Mime Type](#download-and-upload-mime-type)
+- [URL](#url)
+- [URL Path](#url-path)
+- [URL Path & Query](#url-path-and-query)
+- [URL Query](#url-query)
+- [Virtual Network](#virtual-network)
+
+**Identity**
+
+- [SAML Attributes](#users)
+- [User Email](#users)
+- [User Group Emails](#users)
+- [User Group IDs](#users)
+- [User Group Names](#users)
+- [User Name](#users)
+
+**Device Posture**
+
+- [Passed Device Posture Checks](#device-posture)
+
 </Details>
 
 The Redirect action allows you to redirect matched HTTP requests to a different specified URL.
@@ -650,9 +691,9 @@ The country of the user making the request. <Render file="gateway/selectors/sour
 
 ### URL Query
 
-| UI name   | API example                    |
-| --------- | ------------------------------ |
-| URL Query | `not(http.request.uri in $%s)` |
+| UI name   | API example                          |
+| --------- | ------------------------------------ |
+| URL Query | `not(http.request.uri.query in $%s)` |
 
 ### Users
 
