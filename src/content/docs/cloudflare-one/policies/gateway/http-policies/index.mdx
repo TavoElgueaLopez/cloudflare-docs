@@ -214,23 +214,23 @@ The Redirect action allows you to redirect matched HTTP requests to a different 
 
 In **Policy URL redirect**, you can define what URL to redirect matched requests to.
 
-When you turn on **Send policy context**, Gateway will append the details of the matching HTTP request to the redirected URL as a query string. Full list of fields:
+When you turn on **Send policy context**, Gateway will append the details of the matching HTTP request to the redirected URL as a query string. Policy context fields include:
 
 <Details header="Policy context fields">
 
-| Field name                                                                            | Field meaning                                                  | Example                                               |
-| ------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------- |
-| User email                                                                            | The email of the user that made the query                      | `&user_email=mickey.mouse@gmail.com`                  |
-| Site URL                                                                              | The URI of the original request.                               | `&site_uri=https%3A%2F%2Fmalware.testcategory.com%2F` |
-| URL Category                                                                          | The list of categories of the domain/URL that was blocked      | `&request_categories=Personal%20Blocks,Military`      |
-| Original HTTP Referrer They are looking for the HTTP referrer of the original request | The HTTP referer header, if any                                | `&referer=https%3A%2F%2Fexample.com%2F`               |
-| Rule ID                                                                               | The id of the rule that blocked the request, if any            | `&rule_id=6d48997c-a1ec-4b16-b42e-d43ab4d071d1`       |
-| Source IP                                                                             | The IP that triggered the block                                | `&source_ip=40.41.44.5`                               |
-| Device ID                                                                             | The ID of the device that triggered the block, if any          | `&device_id=6d48997c-a1ec-4b16-b42e-d43ab4d071d1`     |
-| Application name                                                                      | The name of the application this domain corresponds to, if any | `&application_name=Azure%20AD`                        |
-| Account ID                                                                            | The account tag                                                | `&account_id=d57c3de47a013c03ca7e237dd3e61d7d`        |
-| Connection Id                                                                         | The ID of the connection for which this block took effect      | `&connection_id=ddcd6361-d5e5-4fdd-9bb3-c3a2de286860` |
-| Request Id                                                                            | The ID of the request for which this block took effect         | `&request_id=ddcd6361-d5e5-4fdd-9bb3-c3a2de286860`    |
+| Field                                | Definition                                                                                               | Example                                                    |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| User email                           | The email of the user that made the query                                                                | `&user_email=user@example.com`                             |
+| Site URL                             | The URI of the original request.                                                                         | `&site_uri=https%3A%2F%2Fmalware.testcategory.com%2F`      |
+| URL category                         | The [domain categories](/cloudflare-one/policies/gateway/domain-categories/) of the URL that was blocked | `&request_categories=New%20Domains,Newly%20Seen%20Domains` |
+| Original HTTP referer of the request | The HTTP referer header, if any                                                                          | `&referer=https%3A%2F%2Fexample.com%2F`                    |
+| Rule ID                              | The id of the rule that blocked the request, if any                                                      | `&rule_id=6d48997c-a1ec-4b16-b42e-d43ab4d071d1`            |
+| Source IP address                    | The IP that triggered the block                                                                          | `&source_ip=203.0.113.5`                                   |
+| Device ID                            | The ID of the device that triggered the block, if any                                                    | `&device_id=6d48997c-a1ec-4b16-b42e-d43ab4d071d1`          |
+| Application name                     | The name of the application this domain corresponds to, if any                                           | `&application_name=Salesforce`                             |
+| Account ID                           | The account tag                                                                                          | `&account_id=d57c3de47a013c03ca7e237dd3e61d7d`             |
+| Connection ID                        | The ID of the connection for which this block took effect                                                | `&connection_id=ddcd6361-d5e5-4fdd-9bb3-c3a2de286860`      |
+| Request ID                           | The ID of the request for which this block took effect                                                   | `&request_id=ddcd6361-d5e5-4fdd-9bb3-c3a2de286860`         |
 
 </Details>
 
