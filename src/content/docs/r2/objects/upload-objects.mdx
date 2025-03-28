@@ -5,26 +5,24 @@ sidebar:
   order: 1
 ---
 
-import { Steps } from "~/components"
+import { Steps, Tabs, TabItem } from "~/components"
 
 You can upload objects to your bucket from the Cloudflare dashboard or using the Wrangler.
 
-## Upload objects via the Cloudflare dashboard
-
-To upload objects to your bucket from the Cloudflare dashboard:
-
-<Steps>
-1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select **R2**.
-2. From the **R2** page in the dashboard, locate and select your bucket.
-3. Select **Upload**.
-4. Choose to either drag and drop your file into the upload area or **select from computer**.
-</Steps>
-
-You will receive a confirmation message after a successful upload.
-
 ## Upload objects via Rclone
 
-Rclone is a command-line tool which manages files on cloud storage. You can use Rclone to upload objects to R2.
+Rclone is a command-line tool which manages files on cloud storage. You can use Rclone to upload objects to R2. To use Rclone, install it onto your machine:
+
+<Tabs>
+<TabItem label="macOS">
+To install on a Mac device, install with `brew`.
+```sh
+brew install rclone
+```
+</TabItem><TabItem label="Windows">
+To install on a Windows device, download it from the official [Rclone website](https://rclone.org/downloads/).
+</TabItem>
+</Tabs>
 
 :::note
 Use Rclone if you wish to upload multiple objects to R2.
@@ -69,6 +67,19 @@ Verify that your files have been uploaded by listing the objects stored in the d
 ```sh
 rclone ls r2:bucket_name
 ```
+
+## Upload objects via the Cloudflare dashboard
+
+To upload objects to your bucket from the Cloudflare dashboard:
+
+<Steps>
+1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select **R2**.
+2. From the **R2** page in the dashboard, locate and select your bucket.
+3. Select **Upload**.
+4. Choose to either drag and drop your file into the upload area or **select from computer**.
+</Steps>
+
+You will receive a confirmation message after a successful upload.
 
 ## Upload objects via Wrangler
 
