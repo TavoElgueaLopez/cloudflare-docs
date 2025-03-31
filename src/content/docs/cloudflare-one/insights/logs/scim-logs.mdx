@@ -22,12 +22,14 @@ To investigate how SCIM events impacted a specific user, go to their [User Regis
 
 SCIM provisioning logs show the following information for each inbound SCIM request:
 
-- **IdP name**: UUID of the identity provider
+- **IdP name**: Name of the identity provider
 - **Timestamp**: Date and time of the request
-- **Action**: HTTP request method (`POST`, `PATCH`, `DELETE`)
+- **Action**: HTTP request method (`POST`, `PUT`, `PATCH`, `DELETE`)
 - **User email**: User who received the SCIM identity update
-- **Resource type**: Identity attribute that was modified (`GROUP` or ?)
-- **CF resource ID**:
-- **Outcome**: HTTP request response (`SUCCESS` or `ERROR`)
+- **Group name**: Group that received the SCIM identity update
+- **Resource type**: SCIM resource that was modified (`GROUP` or `USER`)
+- **CF resource ID**: Consistent identifier for the user or group created by Cloudflare SCIM
+- **IDP resource ID**: Identifier for the user or group provided by the identity provider
+- **Outcome**: Whether the SCIM request was applied successfully (`SUCCESS` or `ERROR`)
 - **Request body**: HTTP request body containing the data that was added, modified, or removed
 - **JSON log**: SCIM request log in JSON format
