@@ -24,7 +24,7 @@ Ingest and load real time data streams to R2, using Cloudflare Pipelines.
 Pipelines lets you ingest and load real time data streams into [R2 Object Storage](/r2/), without managing any infrastructure. You can send data to a Pipeline data via HTTP, or from a [Worker](/workers/). Your Pipeline will handle batching the data, generating compressed JSON files, and delivering the files to an R2 bucket.
 
 ## Build your first Pipeline
-You can create a Pipeline with a single command:
+You can create a Pipeline with a single command.
 
 ```sh
 npx wrangler pipelines create my-pipeline --r2-bucket my-r2-bucket
@@ -37,7 +37,7 @@ You can now send data to your pipeline with:
   curl "https://0adedf710c20401x74380236286a8b9c.pipelines.cloudflare.com/" -d '[{ "foo":"bar }]'
 ```
 
-Refer to the [get started guide](/pipelines/get-started) to start building with Pipelines.
+Refer to the [getting guide](/pipelines/getting-started/http-to-r2) to start building with Pipelines.
 
 ***
 ## Features
@@ -47,7 +47,7 @@ Create your first Pipeline, and send data to it.
 </Feature>
 
 <Feature header="HTTP as a source" href="/pipelines/sources/http/">
-Each Pipeline generates an HTTP endpoint to use for ingestion
+Each Pipeline generates a globally scalable HTTP endpoint, which you can use to ingest data.
 </Feature>
 
 <Feature header="Batch and deliver records to R2" href="/pipelines/configuration/batching">

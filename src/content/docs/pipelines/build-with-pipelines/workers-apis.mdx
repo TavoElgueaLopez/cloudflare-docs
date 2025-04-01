@@ -1,11 +1,11 @@
 ---
+title: Source - Workers
 pcx_content_type: concept
-title: JavaScript API Reference
 sidebar:
-  order: 6
+  order: 2
 head:
   - tag: title
-    content: Cloudflare Pipelines - JavaScript APIs
+    content: Cloudflare Pipelines - Workers APIs
 
 ---
 
@@ -33,6 +33,9 @@ binding = "MY_PIPELINE" # The binding name, accessed using env.MY_PIPELINT
 
 </WranglerConfig>
 
+:::note
+When running your Worker locally, Pipelines are partially simulated. Worker code which sends data to a Pipeline will execute successfully. However, the full Pipeline, including batching & writing to R2, will not be executed locally.
+:::
 
 
 ## `Pipeline`
