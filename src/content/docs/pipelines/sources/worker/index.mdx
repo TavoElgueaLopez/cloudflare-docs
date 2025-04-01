@@ -13,7 +13,7 @@ import { Render, PackageManagers } from "~/components";
 You can send records to your Pipeline directly from a [Cloudflare Worker](/workers/). To do so, you need to:
 1. Create a Worker
 2. Create a Pipeline
-3. Add your Pipeline as a binding in your Workers' `wrangler.toml` file
+3. Add your Pipeline as a binding in your Workers' Wrangler configuration
 4. Write your Worker, to send records to your Pipeline
 5. Deploy your Worker
 6. Verify in R2
@@ -39,7 +39,7 @@ To create a Worker, run the following command in a terminal:
 	}}
 />
 
-This will create a new directory, which will include both a `src/index.ts` Worker script, and a [`wrangler.toml`](/workers/wrangler/configuration/) configuration file. Navigate into the newly created directory:
+This will create a new directory, which will include both a `src/index.ts` Worker script, and a [`wrangler`](/workers/wrangler/configuration/) configuration file. Navigate into the newly created directory:
 
 ```sh
 cd pipeline-worker

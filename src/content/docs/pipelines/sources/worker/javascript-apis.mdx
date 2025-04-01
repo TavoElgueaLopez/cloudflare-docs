@@ -12,7 +12,7 @@ head:
 This guide details the Pipelines API within Cloudflare Workers.
 
 ## Send data to a Pipeline from a Worker
-Pipelines exposes an API directly to your Workers scripts via the [bindings](workers/runtime-apis/bindings/#what-is-a-binding) concept. Bindings allow you to securely send data to a Pipeline without having to manage API keys or clients.
+Pipelines exposes an API directly to your Workers scripts via the [bindings](/workers/runtime-apis/bindings/#what-is-a-binding) concept. Bindings allow you to securely send data to a Pipeline without having to manage API keys or clients.
 
 You can bind to a Pipeline by defining a `[[pipelines]]` binding within your Wrangler configuration. For example:
 
@@ -22,9 +22,9 @@ import { WranglerConfig } from "~/components";
 
 ```toml title="wrangler.toml"
 #:schema node_modules/wrangler/config-schema.json
-name = "workflows-starter"
+name = "pipeline-starter"
 main = "src/index.ts"
-compatibility_date = "2024-10-22"
+compatibility_date = "2025-04-01"
 
 [[pipelines]]
 pipeline = "<MY-PIPELINE-NAME>" # The name of your Pipeline
