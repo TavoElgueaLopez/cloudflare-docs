@@ -40,7 +40,7 @@ A binding which allows a Worker to send messages to a Pipeline.
 
 ```ts
 interface Pipeline<PipelineRecord> {
-  send(records: <PipelineRecord>[]): Promise<void>;
+  send(records: PipelineRecord[]): Promise<void>;
 }
 ```
 
