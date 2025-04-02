@@ -52,7 +52,7 @@ npx wrangler pipelines update <pipeline-name> --compression none
 When configuring your Pipeline, you can define how records are batched before they are delivered to R2. Batches of records are written out to a single output file.
 
 Batching can:
-1. Reduce the number of output files written to R2, and thus reduce the [cost of writing data to R2](r2/pricing/#class-a-operations)
+1. Reduce the number of output files written to R2, and thus reduce the [cost of writing data to R2](/r2/pricing/#class-a-operations)
 2. Increase the size of output files, making them more efficient to query
 
 There are three ways to define how ingested data is batched:
