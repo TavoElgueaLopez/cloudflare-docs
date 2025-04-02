@@ -22,8 +22,8 @@ import {
 
 <PackageManagers
 	type="create"
-	pkg="cloudflare@latest"
-	args="my-astro-app -- --framework=astro --platform=workers"
+	pkg="cloudflare@latest my-astro-app"
+	args="--framework=astro --platform=workers"
 />
 
 ---
@@ -97,6 +97,8 @@ If your Astro project is entirely pre-rendered, follow these steps:
     <Details header="What's this configuration doing?">
     	The key part of this config is the `assets` field, which tells Wrangler where to find your static assets. In this case, we're telling Wrangler to look in the `./dist` directory. If your assets are in a different directory, update the `directory` value accordingly.
     		Read about other [asset configuration options](/workers/static-assets/routing/).
+
+    			Also note how there's no `main` field in this config - this is because you're only serving static assets, so no Worker code is needed for server-side rendering.
     </Details>
 
 2.  **Build and deploy your project**
