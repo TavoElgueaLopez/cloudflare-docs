@@ -748,6 +748,11 @@ wrangler secrets-store secret create <STORE_ID> [OPTIONS]
   - The secret store public ID. You can find it and copy from the [Secrets Store tab](https://dash.cloudflare.com/?to=/:account/secrets-store/) on the dashboard.
 - `--name` <Type text="string" /> <MetaInfo text="required" />
   - A descriptive name for the account-level secret.
+- `--value` <Type text="string" /> <MetaInfo text="test only" />
+  - Value of the secret.
+	:::caution[Only use for testing]
+	This will leave the secret value in plain-text in terminal history. For real secret values, use the automatic prompt instead. Find an example below.
+	:::
 - `--scopes` <Type text="string" /> <MetaInfo text="required" />
   - Which services will have access to the account-level secret. Currently, only `workers` is available.
 - `--comment` <Type text="string" /> <MetaInfo text="optional" />
@@ -781,6 +786,11 @@ wrangler secrets-store secret update <STORE_ID> [OPTIONS]
   - The ID of the secrets store that contains the secret you are updating.
 - `--secret-id` <Type text="string" /> <MetaInfo text="required" />
   - The ID of the secret to update.
+- `--value` <Type text="string" /> <MetaInfo text="test only" />
+  - Updated value of the secret.
+	:::caution[Only use for testing]
+	This will leave the secret value in plain-text in terminal history. For real secret values, use the automatic prompt instead.
+	:::
 - `--scopes` <Type text="string" /> <MetaInfo text="required" />
   - Which services will have access to the account-level secret. Currently, only `workers` is available.
 - `--comment` <Type text="string" /> <MetaInfo text="optional" />
