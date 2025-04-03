@@ -98,7 +98,7 @@ If your Astro project is entirely pre-rendered, follow these steps:
     	The key part of this config is the `assets` field, which tells Wrangler where to find your static assets. In this case, we're telling Wrangler to look in the `./dist` directory. If your assets are in a different directory, update the `directory` value accordingly.
     		Read about other [asset configuration options](/workers/static-assets/routing/).
 
-    			Also note how there's no `main` field in this config - this is because you're only serving static assets, so no Worker code is needed for server-side rendering.
+    			Also note how there's no `main` field in this config - this is because you're only serving static assets, so no Worker code is needed for on demand rendering/SSR.
     </Details>
 
 2.  **Build and deploy your project**
@@ -110,9 +110,9 @@ If your Astro project is entirely pre-rendered, follow these steps:
 
 </Steps>
 
-### If your site uses server rendering
+### If your site uses on demand rendering
 
-If your Astro project uses [on-demand rendering](https://docs.astro.build/en/guides/on-demand-rendering/), follow these steps:
+If your Astro project uses [on demand rendering (also known as SSR)](https://docs.astro.build/en/guides/on-demand-rendering/), follow these steps:
 
 <Steps>
 1. **Install the Astro Cloudflare adapter**
@@ -123,7 +123,7 @@ If your Astro project uses [on-demand rendering](https://docs.astro.build/en/gui
 		/>
 
     	<Details header="What's happening behind the scenes?">
-    		This command installs the Cloudflare adapter and makes the appropriate changes to your `astro.config.mjs` file in one step. By default, this sets the build output configuration to `output: 'server'`, which server renders all your pages by default. If there are certain pages that *don't* need server-sider rendering, for example static pages like a privacy policy, you should set `export const prerender = true` for that page or route to pre-render it. You can read more about the adapter configuration options [in the Astro docs](https://docs.astro.build/en/guides/integrations-guide/cloudflare/#options).
+    		This command installs the Cloudflare adapter and makes the appropriate changes to your `astro.config.mjs` file in one step. By default, this sets the build output configuration to `output: 'server'`, which server renders all your pages by default. If there are certain pages that *don't* need on demand rendering/SSR, for example static pages like a privacy policy, you should set `export const prerender = true` for that page or route to pre-render it. You can read more about the adapter configuration options [in the Astro docs](https://docs.astro.build/en/guides/integrations-guide/cloudflare/#options).
     	</Details>
 
 2.  **Add a Wrangler configuration file**
@@ -174,6 +174,6 @@ Astro applications can be fully integrated with the Cloudflare Developer Platfor
 
 ## Astro's build configuration
 
-The Astro Cloudflare adapter sets the build output configuration to `output: 'server'`, which means all pages are rendered on-demand in your Cloudflare Worker. If there are certain pages that _don't_ need server-sider rendering, for example static pages such as a privacy policy, you should set `export const prerender = true` for that page or route to pre-render it. You can read more about on-demand rendering [in the Astro docs](https://docs.astro.build/en/guides/on-demand-rendering/).
+The Astro Cloudflare adapter sets the build output configuration to `output: 'server'`, which means all pages are rendered on-demand in your Cloudflare Worker. If there are certain pages that _don't_ need on demand rendering/SSR, for example static pages such as a privacy policy, you should set `export const prerender = true` for that page or route to pre-render it. You can read more about on-demand rendering [in the Astro docs](https://docs.astro.build/en/guides/on-demand-rendering/).
 
 If you want to use Astro as a static site generator, you do not need the Astro Cloudflare adapter. Astro will pre-render all pages at build time by default, and you can simply upload those static assets to be served by Cloudflare.
