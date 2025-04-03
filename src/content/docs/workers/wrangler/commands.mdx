@@ -740,6 +740,9 @@ Create a secret within a store.
 wrangler secrets-store secret create <STORE_ID>
 ```
 
+- `STORE_ID` <Type text="string" /> <MetaInfo text="required" />
+  - The secret store public ID. You can find it and copy from the [Secrets Store tab](https://dash.cloudflare.com/?to=/:account/secrets-store/) on the dashboard.
+
 ### `update`
 
 Update a secret within a store.
@@ -747,6 +750,8 @@ Update a secret within a store.
 ```txt
 wrangler secrets-store secret update <KEY> <STORE_ID>
 ```
+
+<Render file="wrangler-commands/secrets-store" product="workers" />
 
 ### `duplicate`
 
@@ -756,6 +761,8 @@ Duplicate a secret within a store.
 wrangler secrets-store secret duplicate <KEY> <STORE_ID>
 ```
 
+<Render file="wrangler-commands/secrets-store" product="workers" />
+
 ### `get`
 
 Get a secret within a store.
@@ -763,6 +770,7 @@ Get a secret within a store.
 ```txt
 wrangler secrets-store secret get <KEY> <STORE_ID>
 ```
+<Render file="wrangler-commands/secrets-store" product="workers" />
 
 ### `delete`
 
@@ -775,6 +783,7 @@ Before deleting a secret, make sure it is not deployed in any Workers applicatio
 ```txt
 wrangler secrets-store secret delete <KEY> <STORE_ID>
 ```
+<Render file="wrangler-commands/secrets-store" product="workers" />
 
 ### `list`
 
@@ -783,6 +792,9 @@ List secrets within a store.
 ```txt
 wrangler secrets-store secret list <STORE_ID>
 ```
+
+- `STORE_ID` <Type text="string" /> <MetaInfo text="required" />
+  - The secret store public ID. You can find it and copy from the [Secrets Store tab](https://dash.cloudflare.com/?to=/:account/secrets-store/) on the dashboard.
 
 ## `workflows`
 
