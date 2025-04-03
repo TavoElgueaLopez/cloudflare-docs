@@ -737,40 +737,62 @@ With the release of [Secrets Store](/secrets-store/) in open beta, you can use t
 Create a secret within a store.
 
 ```txt
-wrangler secrets-store secret create <STORE_ID>
+wrangler secrets-store secret create <STORE_ID> [OPTIONS]
 ```
 
 - `STORE_ID` <Type text="string" /> <MetaInfo text="required" />
   - The secret store public ID. You can find it and copy from the [Secrets Store tab](https://dash.cloudflare.com/?to=/:account/secrets-store/) on the dashboard.
+- `--name` <Type text="string" /> <MetaInfo text="required" />
+  - A descriptive name for the account-level secret.
+- `--scopes` <Type text="string" /> <MetaInfo text="required" />
+  - Which services will have access to the account-level secret. Currently, only `workers` is available.
+- `--comment` <Type text="string" /> <MetaInfo text="optional" />
+  - Additional information about the account-level secret.
+- `--remote` <Type text="boolean" /> <MetaInfo text="(default: false) optional" />
+  - Execute the command against the remote Secrets Store. To interact with account-level secrets in production, make sure to append `--remote` to your commands.
+
+The following is an example of using the `create` command to create an account-level secret.
+
+```sh
+npx wrangler secrets-store secret create 8f7a1cdced6342c18d223ece462fd88d --name MY_SECRETS_STORE_SECRET --scopes workers --remote
+```
+
+```sh output
+✓ Enter a secret value: › ***
+
+🔐 Creating secret... (Name: MY_SECRETS_STORE_SECRET, Value: REDACTED, Scopes: workers, Comment: undefined)
+✓ Select an account: › My account
+✅ Created secret! (ID: 13bc7498c6374a4e9d13be091c3c65f1)
+```
 
 ### `update`
 
 Update a secret within a store.
 
 ```txt
-wrangler secrets-store secret update <KEY> <STORE_ID>
+wrangler secrets-store secret update <STORE_ID>
 ```
 
-<Render file="wrangler-commands/secrets-store" product="workers" />
+
 
 ### `duplicate`
 
 Duplicate a secret within a store.
 
 ```txt
-wrangler secrets-store secret duplicate <KEY> <STORE_ID>
+wrangler secrets-store secret duplicate <STORE_ID>
 ```
 
-<Render file="wrangler-commands/secrets-store" product="workers" />
+
 
 ### `get`
 
 Get a secret within a store.
 
 ```txt
-wrangler secrets-store secret get <KEY> <STORE_ID>
+wrangler secrets-store secret get <STORE_ID>
 ```
-<Render file="wrangler-commands/secrets-store" product="workers" />
+
 
 ### `delete`
 
@@ -781,9 +803,9 @@ Before deleting a secret, make sure it is not deployed in any Workers applicatio
 :::
 
 ```txt
-wrangler secrets-store secret delete <KEY> <STORE_ID>
+wrangler secrets-store secret delete <STORE_ID>
 ```
-<Render file="wrangler-commands/secrets-store" product="workers" />
+
 
 ### `list`
 
