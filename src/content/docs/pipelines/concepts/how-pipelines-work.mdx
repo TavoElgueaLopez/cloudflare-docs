@@ -5,9 +5,9 @@ sidebar:
   order: 1
 ---
 
-Cloudflare Pipelines let you ingest data from a source, and deliver to a destination. It's built for high volume, real time data streams. Each Pipeline can ingest up to 100 MB/s of data, via HTTP or a Worker, and load the data as files in an R2 bucket.
+Cloudflare Pipelines let you ingest data from a source, and deliver to a destination. It's built for high volume, real time data streams. Each pipeline can ingest up to 100 MB/s of data, via HTTP or a Worker, and load the data as files in an R2 bucket.
 
-This guide explains how a Pipeline works.
+This guide explains how a pipeline works.
 
 ![Pipelines Architecture](~/assets/images/pipelines/architecture.png)
 
@@ -16,7 +16,7 @@ Pipelines supports ingestion via [HTTP](/pipelines/build-with-pipelines/http), o
 
 A pipeline can ingest JSON-serializable records.
 
-Finally, Pipelines supports R2 as a sink. Ingested data is written to output files, compressed, and delivered to an R2 bucket. Output files are generated as newline delimited JSON files (`ndjson`). The filename of each output file is prefixed by the event date and time, to make querying the data more efficient. For example, an output fle might be named like this: `event_date=2025-04-03/hr=15/01JQY361X75TMYSQZGWC6ZDMR2.json.gz`. Each line in an output file maps to a single record ingested by a pipeline.
+Finally, Pipelines supports writing data to [R2 Object Storage](/r2/). Ingested data is written to output files, compressed, and delivered to an R2 bucket. Output files are generated as newline delimited JSON files (`ndjson`). The filename of each output file is prefixed by the event date and time, to make querying the data more efficient. For example, an output fle might be named like this: `event_date=2025-04-03/hr=15/01JQY361X75TMYSQZGWC6ZDMR2.json.gz`. Each line in an output file maps to a single record ingested by a pipeline.
 
 We plan to support more sources, data formats, and sinks, in the future.
 
@@ -27,7 +27,7 @@ Any data sent to a pipeline is durably committed to storage. Pipelines use [SQLi
 
 Ingested data is buffered until a sufficiently large batch of data has accumulated. Batching is useful to reduce the number of output files written out to R2. [Batch sizes are customizable](/pipelines/build-with-pipelines/output-settings/#customize-batch-behavior), in terms of data volume, rows, or time.
 
-Finally, the the batch of data is converted into output files, which are compressed, and delivered to the configured R2 bucket. Any transient failures, such as network failures, are automatically retried.
+Finally, when a batch has reached its target size, it is written out to a file. The file is compressed, and is delivered to the configured R2 bucket. Any transient failures, such as network failures, are automatically retried.
 
 ## How a Pipeline handles updates
 Data delivery is guaranteed even while updating an existing pipeline. Updating an existing pipeline effectively creates a new deployment, including all your previously configured options. Requests are gracefully re-routed to the new pipeline. The old pipeline continues to write data into your destination. Once the old pipeline is fully drained, it is spun down.
