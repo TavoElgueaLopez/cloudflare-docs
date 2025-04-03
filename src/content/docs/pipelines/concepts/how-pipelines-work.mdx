@@ -21,13 +21,13 @@ Finally, Pipelines supports writing data to [R2 Object Storage](/r2/). Ingested 
 We plan to support more sources, data formats, and sinks, in the future.
 
 ## Data durability, and the lifecycle of a request
-If you make a request to send data to a pipeline, and receive a successful response, we guarantee that the data will be delivered.
+If you make a request to send data to a pipeline, and receive a successful response, we guarantee that the data will be delivered to your configured destination.
 
-Any data sent to a pipeline is durably committed to storage. Pipelines use [SQLite backed Durable Objects](durable-objects/best-practices/access-durable-objects-storage/#sqlite-storage-backend) as a buffer for ingested records. A pipeline will only return a response after data has been successfully stored.
+Data sent to a pipeline is durably committed to storage. Pipelines use [SQLite backed Durable Objects](durable-objects/best-practices/access-durable-objects-storage/#sqlite-storage-backend) as a buffer for ingested records. A pipeline will only return a response after data has been successfully stored.
 
-Ingested data is buffered until a sufficiently large batch of data has accumulated. Batching is useful to reduce the number of output files written out to R2. [Batch sizes are customizable](/pipelines/build-with-pipelines/output-settings/#customize-batch-behavior), in terms of data volume, rows, or time.
+Ingested data continues to be stored, until a sufficiently large batch of data has accumulated. Batching is useful to reduce the number of output files written out to R2. [Batch sizes are customizable](/pipelines/build-with-pipelines/output-settings/#customize-batch-behavior), in terms of data volume, rows, or time. 
 
-Finally, when a batch has reached its target size, it is written out to a file. The file is compressed, and is delivered to the configured R2 bucket. Any transient failures, such as network failures, are automatically retried.
+When a batch has reached its target size, the batch entire is written out to a file. The file is optionally compressed, and is delivered to an R2 bucket. Any transient failures, such as network failures, are automatically retried.
 
 ## How a Pipeline handles updates
 Data delivery is guaranteed even while updating an existing pipeline. Updating an existing pipeline effectively creates a new deployment, including all your previously configured options. Requests are gracefully re-routed to the new pipeline. The old pipeline continues to write data into your destination. Once the old pipeline is fully drained, it is spun down.
