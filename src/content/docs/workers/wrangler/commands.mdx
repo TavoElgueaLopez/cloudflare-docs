@@ -807,12 +807,32 @@ wrangler secrets-store secret duplicate <STORE_ID> [OPTIONS]
 
 ### `get`
 
-Get a secret within a store.
+Get information on a secret within a store.
 
 ```txt
-wrangler secrets-store secret get <STORE_ID>
+wrangler secrets-store secret get <STORE_ID> [OPTIONS]
 ```
 
+- `STORE_ID` <Type text="string" /> <MetaInfo text="required" />
+  - The ID of the secrets store that contains the secret you want to get.
+- `--secret-id` <Type text="string" /> <MetaInfo text="required" />
+  - The ID of the secret you want to get.
+- `--remote` <Type text="boolean" /> <MetaInfo text="(default: false) optional" />
+  - Execute the command against the remote Secrets Store. To interact with account-level secrets in production, make sure to append `--remote` to your commands.
+
+The following is an example with the expected output:
+
+```sh
+npx wrangler secrets-store secret get 8f7a1cdced6342c18d223ece462fd88d --secret-id 13bc7498c6374a4e9d13be091c3c65f1 --remote
+```
+
+```sh output
+🔐 Getting secret... (ID: 13bc7498c6374a4e9d13be091c3c65f1)
+✓ Select an account: › My account
+| Name                        | ID                                  | StoreID | Comment | Scopes  | Status  | Created                | Modified               |
+|-----------------------------|-------------------------------------|---------|---------|---------|---------|------------------------|------------------------|
+| MY_SECRETS_STORE_SECRET     | 13bc7498c6374a4e9d13be091c3c65f1    |         |         | workers | active  | 4/9/2025, 10:06:01 PM  | 4/15/2025, 09:13:05 AM |
+```
 
 ### `delete`
 
