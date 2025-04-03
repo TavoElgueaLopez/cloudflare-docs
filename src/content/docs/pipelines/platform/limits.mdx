@@ -23,4 +23,8 @@ Many of these limits will increase during Pipelines' public beta period.
 | Maximum batch duration	                      | 300s 	                                          							|
 
 ## What happens if I exceed the requests per second or throughput limits?
-Consistently exceeding the requests per second or throughpht limits may result in requests being rejected by your Pipeline, with a status code of 429. This status code indicates that your Pipeline is unable to keep up with the volume.
+If you consistently exceed the requests per second or throughput limits, your pipeline might not be able to keep up with the load. The pipeline will communicate backpressure by returning a 429 response to HTTP requests, or throwing an error if using the Workers API.
+
+If you are consistently seeing backpressure from your pipeline, consider the following strategies:
+* Increase the [shard count](/pipelines/build-with-pipelines/shards), to increase the maxiumum throughput of your pipeline.
+* Send data to a second pipeline if you receive an error. You can setup multiple pipelines to write to the same R2 bucket.
