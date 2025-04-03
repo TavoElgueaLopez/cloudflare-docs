@@ -33,6 +33,7 @@ Wrangler offers a number of commands to manage your Cloudflare Workers.
 - [`r2 object`](#r2-object) - Manage Workers R2 objects.
 - [`secret`](#secret) - Manage the secret variables for a Worker.
 - [`secret bulk`](#secret-bulk) - Manage multiple secret variables for a Worker.
+- [`secrets-store secret`](#secrets-store-secret) - Manage account secrets within a secrets store.
 - [`workflows`](#workflows) - Manage and configure Workflows.
 - [`tail`](#tail) - Start a session to livestream logs from a deployed Worker.
 - [`pages`](#pages) - Configure Cloudflare Pages.
@@ -725,6 +726,62 @@ npx wrangler secret bulk < secrets.json
 Finished processing secrets JSON file:
 ✨ 1 secrets successfully uploaded
 🚨 1 secrets failed to upload
+```
+
+## `secrets-store secret`
+
+With the release of [Secrets Store](/secrets-store/) in open beta, you can use the following commands to manage your account secrets:
+
+### `create`
+
+Create a secret within a store.
+
+```txt
+wrangler secrets-store secret create <STORE_ID>
+```
+
+### `update`
+
+Update a secret within a store.
+
+```txt
+wrangler secrets-store secret update <KEY> <STORE_ID>
+```
+
+### `duplicate`
+
+Duplicate a secret within a store.
+
+```txt
+wrangler secrets-store secret duplicate <KEY> <STORE_ID>
+```
+
+### `get`
+
+Get a secret within a store.
+
+```txt
+wrangler secrets-store secret get <KEY> <STORE_ID>
+```
+
+### `delete`
+
+Delete a secret within a store.
+
+:::caution
+Before deleting a secret, make sure it is not deployed in any Workers application.
+:::
+
+```txt
+wrangler secrets-store secret delete <KEY> <STORE_ID>
+```
+
+### `list`
+
+List secrets within a store.
+
+```txt
+wrangler secrets-store secret list <STORE_ID>
 ```
 
 ## `workflows`
