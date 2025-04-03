@@ -21,10 +21,10 @@ Ingest real time data streams, and load to R2, using Cloudflare Pipelines.
 
 <Plan type="paid" />
 
-Cloudflare Pipelines lets you ingest high volumes of real time data, without managing any infrastructure. A single Pipeline can ingest up to 100 MB of data per second. Ingested data is automatically batched, written to output files, and delivered to an R2 bucket in your account.
+Cloudflare Pipelines lets you ingest high volumes of real time data, without managing any infrastructure. A single pipeline can ingest up to 100 MB of data per second. Ingested data is automatically batched, written to output files, and delivered to an R2 bucket in your account. You can use Pipelines to build a data lake of clickstream data, or to archive logs from a service.
 
-## Build your first Pipeline
-You can create a Pipeline with a single command.
+## Create your first pipeline
+You can setup a pipeline to ingest data via HTTP, and deliver output to R2, with a single command:
 
 ```sh
 npx wrangler pipelines create my-pipeline --r2-bucket my-r2-bucket
@@ -37,17 +37,21 @@ You can now send data to your pipeline with:
   curl "https://0adedf710c20401x74380236286a8b9c.pipelines.cloudflare.com/" -d '[{ "foo":"bar }]'
 ```
 
-Refer to the [getting started guide](/pipelines/getting-started) to start building with Pipelines.
+Refer to the [getting started guide](/pipelines/getting-started) to start building with pipelines.
+
+:::note
+While in beta, you will not be billed for Pipelines usage. You will be billed only for [R2 operations](r2/pricing/).
+:::
 
 ***
 ## Features
 
 <Feature header="HTTP as a source" href="/pipelines/build-with-pipelines/http/">
-Each Pipeline generates a globally scalable HTTP endpoint, which supports authentication and CORS settings.
+Each pipeline generates a globally scalable HTTP endpoint, which supports authentication and CORS settings.
 </Feature>
 
-<Feature header="Customize batch behavior, deliver to a prefix, and receive partitioned data" href="/pipelines/build-with-pipelines/output-settings">
-Customize Pipeline settings to generate output files that are efficient to query.
+<Feature header="Customize output settings" href="/pipelines/build-with-pipelines/output-settings">
+Define batch sizes and enable compression to generate output files that are efficient to query.
 </Feature>
 
 ***
@@ -73,7 +77,7 @@ Cloudflare Workers allows developers to build serverless applications and deploy
 <CardGrid>
 
 <LinkTitleCard title="Limits" href="/pipelines/platform/limits/" icon="document">
-Learn about Pipelines limits.
+Learn about pipelines limits.
 </LinkTitleCard>
 
 <LinkTitleCard title="@CloudflareDev" href="https://x.com/cloudflaredev" icon="x.com">

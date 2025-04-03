@@ -29,15 +29,8 @@ Ingested data is buffered until a sufficiently large batch of data has accumulat
 
 Finally, the the batch of data is converted into output files, which are compressed, and delivered to the configured R2 bucket. Any transient failures, such as network failures, are automatically retried.
 
-Once files have been successfully written to R2, the buffers are flushed.
-
 ## How a Pipeline handles updates
-Data delivery is guaranteed even while updating an existing pipeline. Updating an existing pipeline effectively creates a new deployment, including all your previously configured options. Requests are gracefully re-routed to the new pipeline. The old pipeline continues to write data into your destination. We spin down the old pipeline only after all the data has been written out. This way, you won’t lose data even while updating a pipeline.
-
-## How Pipelines scale
-Pipelines are organized into shards. You can [customize the number of shards](/pipelines/build-with-pipelines/shards) to increase maximum throughput, or to reduce the number of output files generated.
-
-Each shard consists of layers of durable objects. Shards are stateless, so your pipeline can scale by horizontally scaling the number of shards.
+Data delivery is guaranteed even while updating an existing pipeline. Updating an existing pipeline effectively creates a new deployment, including all your previously configured options. Requests are gracefully re-routed to the new pipeline. The old pipeline continues to write data into your destination. Once the old pipeline is fully drained, it is spun down.
 
 ## What if I send too much data? Do Pipelines communicate backpressure?
 If you send too much data, the pipeline will communicate backpressure by returning a 429 response to HTTP requests, or throwing an error if using the Workers API. Refer to the [limits](/pipelines/platform/limits) to learn how much volume a single pipeline can support.
