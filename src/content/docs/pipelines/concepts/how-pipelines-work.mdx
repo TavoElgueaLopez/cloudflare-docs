@@ -37,12 +37,12 @@ Transient failures, such as network connectivity issues, are automatically retri
 
 However, if the [R2 API credentials associated with a pipeline](/r2/api/s3/tokens/) expire or are revoked, data delivery will fail. In this scenario, some data might continue to accumulate in the buffers, but the pipeline will eventually start rejecting requests.
 
-## How a Pipeline handles updates
+## Updating a pipeline
 Pipelines update without dropping records. Updating an existing pipeline effectively creates a new instance of the pipeline. Requests are gracefully re-routed to the new instance. The old instance continues to write data into your configured sink. Once the old instance is fully drained, it is spun down.
 
 This means that updates might take a few minutes to go into effect. For example, if you update a pipeline's sink, previously ingested data might continue to be delivered into the old sink.
 
-## What if I send too much data? Do Pipelines communicate backpressure?
+## Backpressure behavior
 If you send too much data, the pipeline will communicate backpressure by returning a 429 response to HTTP requests, or throwing an error if using the Workers API. Refer to the [limits](/pipelines/platform/limits) to learn how much volume a single pipeline can support. You might see 429 responses if you are sending too many requests, or sending too much data.
 
 If you are consistently seeing backpressure from your pipeline, consider the following strategies:
