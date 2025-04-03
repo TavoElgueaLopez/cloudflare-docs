@@ -1,5 +1,5 @@
 ---
-updated: 2025-03-04
+updated: 2025-04-03
 difficulty: Beginner
 pcx_content_type: tutorial
 title: Whisper-large-v3-turbo with Cloudflare Workers AI
@@ -13,21 +13,17 @@ In this tutorial you will learn how to:
 - **Handle large files:** Split large audio files into smaller chunks for processing, which helps overcome memory and execution time limitations.
 - **Deploy using Cloudflare Workers:** Create a scalable, low‑latency transcription pipeline in a serverless environment.
 
-## Step 1: Create a New Cloudflare Worker Project
+## 1: Create a new Cloudflare Worker project
 
 import { Render, PackageManagers, WranglerConfig } from "~/components";
 
-This guide will instruct you through setting up and deploying your first Workers AI project. You will use [Workers](/workers/), a Workers AI binding, and a large language model (LLM) to deploy your first AI-powered application on the Cloudflare global network.
-
 <Render file="prereqs" product="workers" />
-
-## 1. Create a Worker project
 
 You will create a new Worker project using the `create-cloudflare` CLI (C3). [C3](https://github.com/cloudflare/workers-sdk/tree/main/packages/create-cloudflare) is a command-line tool designed to help you set up and deploy new applications to Cloudflare.
 
-Create a new project named `hello-ai` by running:
+Create a new project named `whisper-tutorial` by running:
 
-<PackageManagers type="create" pkg="cloudflare@latest" args={"hello-ai"} />
+<PackageManagers type="create" pkg="cloudflare@latest" args={"whisper-tutorial"} />
 
 Running `npm create cloudflare@latest` will prompt you to install the [`create-cloudflare` package](https://www.npmjs.com/package/create-cloudflare), and lead you through setup. C3 will also install [Wrangler](/workers/wrangler/), the Cloudflare Developer Platform CLI.
 
@@ -41,7 +37,7 @@ Running `npm create cloudflare@latest` will prompt you to install the [`create-c
 	}}
 />
 
-This will create a new `hello-ai` directory. Your new `hello-ai` directory will include:
+This will create a new `whisper-tutorial` directory. Your new `whisper-tutorial` directory will include:
 
 - A `"Hello World"` [Worker](/workers/get-started/guide/#3-write-code) at `src/index.ts`.
 - A [`wrangler.jsonc`](/workers/wrangler/configuration/) configuration file.
@@ -49,7 +45,7 @@ This will create a new `hello-ai` directory. Your new `hello-ai` directory will 
 Go to your application directory:
 
 ```sh
-cd hello-ai
+cd whisper-tutorial
 ```
 
 ## 2. Connect your Worker to Workers AI
@@ -69,43 +65,31 @@ binding = "AI"
 
 Your binding is [available in your Worker code](/workers/reference/migrate-to-module-workers/#bindings-in-es-modules-format) on [`env.AI`](/workers/runtime-apis/handlers/fetch/).
 
-3. **Navigate to Your Project Directory:**
+## 3. Configure Wrangler
 
-```
-cd whisper-tutorial
-```
+In your wrangler file, add or update the following settings to enable Node.js APIs and polyfills (with a compatibility date of 2024‑09‑23 or later):
 
-## Step 2: Configure Wrangler
+<WranglerConfig>
 
-1. **Enable Node.js Compatibility:**
-
-   In your `wrangler.toml` file, add or update the following settings to enable Node.js APIs and polyfills (with a compatibility date of 2024‑09‑23 or later):
-
-```
+```toml title="wrangler.toml"
+compatibility_flags = [ "nodejs_compat" ]
 compatibility_date = "2024-09-23"
-nodejs_compat = true
 ```
 
-2. **Add the AI Binding:**
+</WranglerConfig>
 
-   In the same file, add an AI binding so that you can use Cloudflare’s AI models in your Worker:
-
-```
-[ai]
-binding = "AI"
-```
-
-## Step 3: Full TypeScript Code – Handling Large Audio Files with Chunking
+## 4. Handling large audio files with chunking
 
 Replace the contents of your `src/index.ts` file with the following integrated code. This sample demonstrates how to:
 
 - Extract an audio file URL from the query parameters.
 - Fetch the audio file while explicitly following redirects.
-- Split the audio file into smaller chunks (e.g., 1MB chunks).
-- Transcribe each chunk using the Whisper‑large‑v3‑turbo model via the Cloudflare AI binding.
+- Split the audio file into smaller chunks (such as, 1MB chunks).
+- Transcribe each chunk using the Whisper-large-v3-turbo model via the Cloudflare AI binding.
 - Return the aggregated transcription as plain text.
 
-```
+```ts
+
 import { Buffer } from "node:buffer";
 import type { Ai } from "workers-ai";
 
@@ -197,21 +181,19 @@ export default {
 } satisfies ExportedHandler<Env>;
 ```
 
----
+## 5. Develop, test, and deploy
 
-## Step 4: Develop, Test, and Deploy
+1. **Run the Worker locally:**
 
-1. **Run the Worker Locally:**
+   Use wrangler's development mode to test your Worker locally:
 
-   Use Wrangler's development mode to test your Worker locally:
-
-```
+```sh
 npx wrangler dev --remote
 ```
 
-   Open your browser and visit [http://localhost:8787](http://localhost:8787), or use curl:
+   Open your browser and go to [http://localhost:8787](http://localhost:8787), or use curl:
 
-```
+```sh
 curl "http://localhost:8787?url=https://raw.githubusercontent.com/your-username/your-repo/main/your-audio-file.mp3"
 ```
 
@@ -223,15 +205,15 @@ curl "http://localhost:8787?url=https://raw.githubusercontent.com/your-username/
 
    Once testing is complete, deploy your Worker with:
 
-```
+```sh
 npx wrangler deploy
 ```
 
-3. **Test the Deployed Worker:**
+3. **Test the deployed Worker:**
 
    After deployment, test your Worker by passing the audio URL as a query parameter:
 
-```
+```sh
 curl "https://<your-worker-subdomain>.workers.dev?url=https://raw.githubusercontent.com/your-username/your-repo/main/your-audio-file.mp3"
 ```
 
@@ -241,4 +223,4 @@ If successful, the Worker will return a transcript of the audio file:
 
 ```sh
 This is the transcript of the audio...
-``
+```
