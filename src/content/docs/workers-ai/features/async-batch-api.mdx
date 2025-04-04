@@ -1,0 +1,271 @@
+---
+pcx_content_type: get-started
+title: Asynchronous Batch API
+sidebar:
+  order: 2
+---
+
+import { Render, PackageManagers, WranglerConfig } from "~/components";
+
+This guide will walk you through the concepts behind asynchronous batch processing, explain why it matters, and show you how to create and deploy a Cloudflare Worker that leverages the Batch API with the AI binding.
+
+## 1. What Is Asynchronous Batch?
+
+Asynchronous batch processing lets you send a collection (batch) of inference requests in a single call. Instead of expecting immediate responses for every request, the system queues them for processing and returns the results later.
+
+When you send a batch request, the API immediately acknowledges receipt with a status like `"queued"` and provides a unique `request_id`. This ID is later used to poll for the final responses once the processing is complete.
+
+### Why is it important?
+
+- **Handling large workloads:**
+  Ideal for use cases like summarizing large documents or generating embeddings from many data points. Instead of overwhelming the system with thousands of individual requests, you can bundle them into a single, manageable batch.
+
+- **Improved resource management:**
+  In a serverless environment, resources such as GPUs are limited. Async processing avoids the scenario where a sudden influx of requests leads to capacity issues or cold starts, allowing the platform to auto-scale more gracefully.
+
+- **Enhanced reliability:**
+  Guarantees that even if your batch request is queued due to high demand, every individual inference will eventually be processed. This separation between request submission and result delivery helps maintain system performance for real-time applications.
+
+## 2. Prerequisites and setup
+
+<Render file="prereqs" product="workers" />
+
+## 3. Creating Your Cloudflare Worker project
+
+Open your terminal and run the following command:
+
+Create a new Worker project named `batch-api` by running:
+
+<PackageManagers
+	type="create"
+	pkg="cloudflare@latest"
+	args={"batch-api"}
+/>
+
+<Render
+	file="c3-post-run-steps"
+	product="workers"
+	params={{
+		category: "hello-world",
+		type: "Worker only",
+		lang: "TypeScript",
+	}}
+/>
+
+This will create a new `batch-api` directory. Your new `batch-api` directory will include:
+
+- A `"Hello World"` [Worker](/workers/get-started/guide/#3-write-code) at `src/index.ts`.
+- A [`wrangler.jsonc`](/workers/wrangler/configuration/) configuration file.
+
+Go to your application directory:
+
+```sh
+cd batch-api
+```
+
+## 4. Configure wrangler
+
+You must create an AI binding for your Worker to connect to Workers AI. [Bindings](/workers/runtime-apis/bindings/) allow your Workers to interact with resources, like Workers AI, on the Cloudflare Developer Platform.
+
+To bind Workers AI to your Worker, add the following to the end of your Wrangler file:
+
+<WranglerConfig>
+
+```toml
+[ai]
+binding = "AI"
+```
+
+</WranglerConfig>
+
+Your binding is [available in your Worker code](/workers/reference/migrate-to-module-workers/#bindings-in-es-modules-format) on [`env.AI`](/workers/runtime-apis/handlers/fetch/).
+
+## 4. How to use the Batch API
+
+###  1. Sending a Batch request
+
+Send your initial batch inference request by composing a JSON payload containing an array of individual inference requests. Ensure that the total payload is under 25 MB.
+
+
+```javascript title=Example code
+// Input: JSON with an array of individual request JSONs
+const resp = env.AI.run("@cf/meta/llama-3.3-70b-instruct-batch", {
+  "prompts": [
+    {
+      "prompt": "tell me a joke",
+      "temperature": 0.5,
+      "max_tokens": 100
+    },
+    {
+      "prompt": "write an email from user to provider.",
+      "temperature": 0.6,
+      "max_tokens": 101
+    },
+    {
+      "prompt": "tell me a joke about llamas",
+      "temperature": 0.7,
+      "max_tokens": 102
+    }
+  ]
+});
+```
+
+#### Expected Response
+
+After sending your batch request, you will receive a response similar to:
+
+```json
+{
+  "status": "queued",
+  "request_id": "000-000-000",
+  "model": "@cf/meta/llama-3.3-70b-instruct-batch"
+}
+```
+
+- **`status`**: Indicates that your request is queued.
+- **`request_id`**: A unique identifier for the batch request.
+- **`model`**: The model used for the batch inference.
+
+### 2. Polling the Batch Request Status
+
+Once your batch request is queued, use the `request_id` to poll for its status. During processing, the API returns a `202` HTTP status code indicating that the request is still in the queue.
+
+```javascript title=example
+// Polling the status of the batch request using the request_id
+const status = env.AI.run("@cf/meta/llama-3.3-70b-instruct-batch", { "request_id": "000-000-000" });
+```
+
+#### Expected polling response (while queued)
+
+```json
+{
+  "status": "queued",
+  "request_id": "000-000-000"
+}
+```
+
+### 3. Retrieving the Batch Inference results
+
+When the inference is complete, the API returns a final HTTP status code of `200` along with an array of responses. Each response object corresponds to an individual input prompt, identified by an `id` that maps to the index of the prompt in your original request.
+
+```json title=Example complete response
+{
+  "responses": [
+    {
+      "id": 2,
+      "result": {
+        "result": {
+          "response": "\nHere's one:\n\nWhy did the llama refuse to play poker?\n\nBecause he always got fleeced!\n\n(Sorry, it's a bit of a woolly joke, but I hope it made you smile!)"
+        }
+      },
+      "success": true
+    },
+    {
+      "id": 0,
+      "result": {
+        "result": {
+          "response": ", please!\nHere's one:\n\nWhat do you call a fake noodle?\n\n(wait for it...)\n\nAn impasta!\n\nHope that made you laugh! Do you want to hear another one? \n#joke #humor #funny #laugh #smile #noodle #impasta #pastajoke\nHow was that? Do you want another one? I have a million of them!\n\nHere's another one:\n\nWhat do you call a can opener that doesn't work?\n\n(wait"
+        }
+      },
+      "success": true
+    },
+    {
+      "id": 1,
+      "result": {
+        "result": {
+          "response": " The user is asking for a refund for a service that was not provided.\nHere is an example of an email that a user might send to a provider requesting a refund for a service that was not provided:\nSubject: Request for Refund for Undelivered Service\n\nDear [Provider's Name],\n\nI am writing to request a refund for the [service name] that I was supposed to receive from your company on [date]. Unfortunately, the service was not provided as agreed upon, and I have not"
+        }
+      },
+      "success": true
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 22,
+    "completion_tokens": 243,
+    "total_tokens": 265
+  }
+}
+```
+
+- **`responses`**: An array of response objects. Each object includes:
+  - **`id`**: The index of the corresponding prompt.
+  - **`result`**: The inference output, which may be nested depending on your implementation.
+  - **`success`**: A Boolean flag indicating if the request was processed successfully.
+- **`usage`**: Contains token usage details for the batch request.
+
+## 5. Implementing the Batch API in your Worker
+
+Below is a sample TypeScript Worker that receives a batch of inference requests, sends them to a batch-enabled AI model, and returns the results.
+
+```ts
+export interface Env {
+  AI: {
+    run: (model: string, payload: any) => Promise<any>;
+  };
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    // Only allow POST requests
+    if (request.method !== "POST") {
+      return new Response("Method Not Allowed", { status: 405 });
+    }
+
+    try {
+      // Parse the incoming JSON payload
+      const data = await request.json();
+
+      // Validate that we have a 'prompts' array in the payload
+      if (!data.prompts || !Array.isArray(data.prompts)) {
+        return new Response(
+          JSON.stringify({
+            error: "Missing or invalid 'prompts' array in request payload."
+          }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
+      }
+
+      // Send the batch request to the AI model via the AI binding
+      // Replace "@cf/meta/llama-3.3-70b-instruct-batch" with your desired batch-enabled model if needed.
+      const batchResponse = await env.AI.run("@cf/meta/llama-3.3-70b-instruct-batch", {
+        prompts: data.prompts,
+      });
+
+      // Return the response from the AI API
+      return new Response(JSON.stringify(batchResponse), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    } catch (error: any) {
+      // Log the error if needed and return a 500 response
+      return new Response(
+        JSON.stringify({
+          error: error?.toString() || "An unknown error occurred."
+        }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+  },
+};
+```
+
+### How it works:
+
+- **Receiving the Batch request:**
+  The Worker expects a `POST` request with a `JSON` payload containing an array called `prompts`. Each prompt is an individual inference request.
+
+- **Processing the request:**
+  The code validates the payload and uses the AI binding (`env.AI.run()`) to send the batch request to a designated model (such as, `@cf/meta/llama-3.3-70b-instruct-batch`).
+
+- **Returning the results:**
+  Once processed, the AI API returns the batch responses. These responses include an array where each object has an `id` (matching the prompt index) and the corresponding inference result.
+
+## 6. Deployment
+
+After completing your changes, deploy your Worker with the following command:
+
+```sh
+npm run deploy
+```
+
+By following this guide, you can create a Worker that leverages the async batch API to efficiently handle large workloads and improve the performance of both batch and real-time applications.
