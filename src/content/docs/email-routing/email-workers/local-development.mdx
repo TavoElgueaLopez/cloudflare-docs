@@ -113,7 +113,6 @@ import { EmailMessage } from "cloudflare:email";
 import { createMimeMessage } from 'mimetext';
 
 export default {
-
 	async fetch(request, env, ctx) {
 		const msg = createMimeMessage();
 		msg.setSender({ name: 'Sending email test', addr: 'sender@example.com' });
