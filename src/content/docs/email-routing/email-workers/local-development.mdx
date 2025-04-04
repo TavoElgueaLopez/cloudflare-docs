@@ -8,15 +8,9 @@ sidebar:
 
 import { Render, Type, MetaInfo, WranglerConfig } from "~/components";
 
-You can test the behavior of your `email()` handler in local development using [wrangler dev](/workers/wrangler/commands/#dev).
+You can test the behavior of an Email Worker script in local development using [wrangler dev](/workers/wrangler/commands/#dev).
 
-Right now local development for Email Workers is in beta. To use it, you need to install a preview release of Wrangler.
-
-```bash
-npm install --save-dev https://prerelease-registry.devprod.cloudflare.dev/workers-sdk/runs/14106373814/npm-package-wrangler-8375
-```
-
-Make sure you have Email Routing [enabled](/email-routing/get-started/enable-email-routing/), at least one verified [destination address](/email-routing/setup/email-routing-addresses/#destination-addresses), and your wrangler configuration declares the Email Workers binding:
+This is the minimal wrangler configuration required to run an Email Worker locally:
 
 <WranglerConfig>
 
@@ -31,6 +25,12 @@ Make sure you have Email Routing [enabled](/email-routing/get-started/enable-ema
 ```
 
 </WranglerConfig>
+
+:::note
+
+If you want to deploy your script you need to enable Email Routing [enabled](/email-routing/get-started/enable-email-routing/) and have at least one verified [destination address](/email-routing/setup/email-routing-addresses/#destination-addresses).
+
+:::
 
 You can now test receiving, replying and sending emails in your local environment.
 
@@ -127,19 +127,20 @@ export default {
 		await env.EMAIL.send(message);
 		return Response.json({ ok: true });
 	}
-
 };
 ```
 
 Now when you run `npx wrangler dev`, go to http://localhost:8787/ to trigger the `fetch()` handler and send the email. You will see the follow message in your terminal:
 
 ```bash
+⎔ Starting local server...
+[wrangler:inf] Ready on http://localhost:8787
 [wrangler:inf] GET / 200 OK (19ms)
-send_email binding called with the following message:
-/var/folders/33/pn86qymd0w50htvsjp93rys40000gn/T/miniflare-25d0146a88267bfc8d4b91b42ad5a4d0/files/28318e5d-d1c8-4bf6-b2c1-9dcb40088391.eml
+[wrangler:inf] send_email binding called with the following message:
+  /var/folders/33/pn86qymd0w50htvsjp93rys40000gn/T/miniflare-f9be031ff417b2e67f2ac4cf94cb1b40/files/email/33e0a255-a7df-4f40-b712-0291806ed2b3.eml
 ```
 
-Wrangler simulated `env.EMAIL.send()` by writing the email to a local file in [eml](https://datatracker.ietf.org/doc/html/rfc822). The file contains the raw email message:
+Wrangler simulated `env.EMAIL.send()` by writing the email to a local file in [eml](https://datatracker.ietf.org/doc/html/rfc5322) format. The file contains the raw email message:
 
 ```
 Date: Fri, 04 Apr 2025 12:27:08 +0000
@@ -195,12 +196,10 @@ export default {
 Run `npx wrangler dev` and use curl to POST the same message from the [Receiving an email](#receiving-an-email) example. Your terminal will show you where to find the replied message in your local disk and to whom the email was forwarded:
 
 ```bash
-[wrangler:inf] Ready on http://localhost:8787
 ⎔ Starting local server...
-.reply() called from Email Handler with the following message:
-/var/folders/33/pn86qymd0w50htvsjp93rys40000gn/T/miniflare-9deb89ed3538650182911d0c23676206/files/935d333b-3850-4d3b-b042-4d3b9b53469c.eml
-.forward() called from Email Handler with
-rcptTo: recipient@example.com
+[wrangler:inf] Ready on http://localhost:8787
+[wrangler:inf] Email handler replied to sender with the following message:
+  /var/folders/33/pn86qymd0w50htvsjp93rys40000gn/T/miniflare-381a79d7efa4e991607b30a079f6b17d/files/email/a1db7ebb-ccb4-45ef-b315-df49c6d820c0.eml
+[wrangler:inf] Email handler forwarded message with
+  rcptTo: recipient@example.com
 ```
-
-Note that Email Workers local development is still in beta and requires a preview version of wrangler. This page will update when we merge it into the main branch.
