@@ -46,9 +46,9 @@ Choose a shard count based on these factors:
 * How many requests per second you will make to your pipeline
 * How much data per second you will send to your pipeline
 
-Each shard is capable of handling approximately 7,000 requests per second, or ingesting 7 MB / s of data. Either factor might act as the bottleneck, so choose the shard count based on the higher number.
+Each shard is capable of handling approximately 10,000 requests per second, or ingesting 10 MB / s of data. Either factor might act as the bottleneck, so choose the shard count based on the higher number.
 
-For example, if you estimate that you will ingest 70 MB / s, making 70,000 requests per second, setup a pipeline with 10 shards. However, if you estimate that you will ingest 70 MB / s while making 100,000 requests per second, setup a pipeline with 15 shards.
+For example, if you estimate that you will ingest 70 MB / s, making 70,000 requests per second, setup a pipeline with 7 shards. However, if you estimate that you will ingest 70 MB / s while making 100,000 requests per second, setup a pipeline with 10 shards.
 
 ## Limits
 | Setting                                   | Default     | Minimum   | Maximum     |
