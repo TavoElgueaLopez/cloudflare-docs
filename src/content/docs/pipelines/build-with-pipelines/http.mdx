@@ -12,15 +12,36 @@ import { Render, PackageManagers } from "~/components";
 
 Pipelines support data ingestion over HTTP. When you create a new pipeline, you'll receive a globally scalable ingestion endpoint. To ingest data, make HTTP POST requests to the endpoint.
 
-
 ```sh
-$ npx wrangler pipelines create [PIPELINE-NAME] --r2-bucket [R2-BUCKET-NAME]
+$ npx wrangler@latest pipelines create my-clickstream-pipeline --r2-bucket my-bucket
 
-🌀 Creating pipeline named "[PIPELINE-NAME]"
-✅ Successfully created pipeline [PIPELINE-NAME] with ID [PIPELINE-ID]
+🌀 Authorizing R2 bucket "my-bucket"
+🌀 Creating pipeline named "my-clickstream-pipeline"
+✅ Successfully created pipeline my-clickstream-pipeline
 
-You can now send data to your pipeline with:
-  curl "https://<PIPELINE-ID>.pipelines.cloudflare.com/" -d '[{ "foo":"bar" }]'
+Id:    0e00c5ff09b34d018152af98d06f5a1xvc
+Name:  my-clickstream-pipeline
+Sources:
+  HTTP:
+    Endpoint:        https://0e00c5ff09b34d018152af98d06f5a1xvc.pipelines.cloudflare.com/
+    Authentication:  off
+    Format:          JSON
+  Worker:
+    Format:  JSON
+Destination:
+  Type:         R2
+  Bucket:       my-bucket
+  Format:       newline-delimited JSON
+  Compression:  GZIP
+Batch hints:
+  Max bytes:     100 MB
+  Max duration:  300 seconds
+  Max records:   100,000
+
+🎉 You can now send data to your Pipeline!
+
+Send data to your Pipeline's HTTP endpoint:
+curl "https://0e00c5ff09b34d018152af98d06f5a1xvc.pipelines.cloudflare.com/" -d '[{ ...JSON_DATA... }]'
 ```
 
 ## Accepted data formats
@@ -36,16 +57,16 @@ curl -X POST https://<PIPELINE-ID>.pipelines.cloudflare.com \
 ```
 
 ## Turning HTTP ingestion off
-By default, ingestion via HTTP is turned on. You can turn it off by setting `--enable-http false` when creating or updating a pipeline.
+By default, ingestion via HTTP is turned on. You can turn it off by excluding it from the list of sources, by using `--sources` when creating or updating a pipeline.
 
 ```sh
-$ npx wrangler pipelines create [PIPELINE-NAME] --r2-bucket [R2-BUCKET-NAME] --enable-http false
+$ npx wrangler pipelines create [PIPELINE-NAME] --r2-bucket [R2-BUCKET-NAME] --sources worker
 ```
 
 Ingestion URLs are tied to your pipeline ID. Turning HTTP off, and then turning it back on, will not change the URL.
 
 ## Authentication
-You can secure your HTTP ingestion endpoint using Cloudflare API tokens. By default, authentication is turned off. To enable authentication, use `--require-http-auth true` while creating or updating a pipeline.
+You can secure your HTTP ingestion endpoint using Cloudflare API tokens. By default, authentication is turned off. To configure authentication, use the `--require-http-auth` flag while creating or updating a pipeline.
 
 ```sh
 $ npx wrangler pipelines create [PIPELINE-NAME] --r2-bucket [R2-BUCKET-NAME] --require-http-auth true

@@ -27,14 +27,35 @@ Cloudflare Pipelines lets you ingest high volumes of real time data, without man
 You can setup a pipeline to ingest data via HTTP, and deliver output to R2, with a single command:
 
 ```sh
-npx wrangler pipelines create my-pipeline --r2-bucket my-r2-bucket
+$ npx wrangler@latest pipelines create my-clickstream-pipeline --r2-bucket my-bucket
 
-🌀 Authorizing R2 bucket "my-r2-bucket"
-🌀 Creating pipeline named "my-pipeline"
-✅ Successfully created pipeline my-pipeline with ID 0adedf710c20401x74380236286a8b9c
+🌀 Authorizing R2 bucket "my-bucket"
+🌀 Creating pipeline named "my-clickstream-pipeline"
+✅ Successfully created pipeline my-clickstream-pipeline
 
-You can now send data to your pipeline with:
-  curl "https://0adedf710c20401x74380236286a8b9c.pipelines.cloudflare.com/" -d '[{ "foo":"bar }]'
+Id:    0e00c5ff09b34d018152af98d06f5a1xvc
+Name:  my-clickstream-pipeline
+Sources:
+  HTTP:
+    Endpoint:        https://0e00c5ff09b34d018152af98d06f5a1xvc.pipelines.cloudflare.com/
+    Authentication:  off
+    Format:          JSON
+  Worker:
+    Format:  JSON
+Destination:
+  Type:         R2
+  Bucket:       my-bucket
+  Format:       newline-delimited JSON
+  Compression:  GZIP
+Batch hints:
+  Max bytes:     100 MB
+  Max duration:  300 seconds
+  Max records:   100,000
+
+🎉 You can now send data to your Pipeline!
+
+Send data to your Pipeline's HTTP endpoint:
+curl "https://0e00c5ff09b34d018152af98d06f5a1xvc.pipelines.cloudflare.com/" -d '[{ ...JSON_DATA... }]'
 ```
 
 Refer to the [getting started guide](/pipelines/getting-started) to start building with pipelines.

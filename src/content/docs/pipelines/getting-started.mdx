@@ -37,7 +37,7 @@ To use Pipelines, you will need:
 Create a bucket by following the [get started guide for R2](/r2/get-started/), or by running the command below:
 
 ```sh
-npx wrangler r2 bucket create clickstream-bucket
+npx wrangler r2 bucket create my-bucket
 ```
 
 Save the bucket name for the next step.
@@ -50,14 +50,14 @@ To create a pipeline using Wrangler, run the following command in a terminal, an
 - The name of the R2 bucket you created in step 1
 
 ```sh
-npx wrangler pipelines create clickstream-pipeline --r2-bucket clickstream-bucket --batch-max-seconds 5 --compression none
+npx wrangler pipelines create my-clickstream-pipeline --r2-bucket my-bucket --batch-max-seconds 5 --compression none
 ```
 
 After running this command, you'll be prompted to authorize Cloudflare Workers Pipelines to create an R2 API token on your behalf. These tokens used by your pipeline when loading data into your bucket. You can approve the request through the browser link which will open automatically.
 
 If you prefer not to authenticate this way, you may pass your [R2 API Token](/r2/api/s3/tokens/) to Wrangler:
 ```sh
-npx wrangler pipelines create clickstream-pipeline --r2-bucket clickstream-bucket --r2-access-key-id [ACCESS-KEY-ID] --r2-secret-access-key [SECRET-ACCESS-KEY] --batch-max-seconds 5 --compression none
+npx wrangler pipelines create my-clickstream-pipeline --r2-bucket my-bucket --r2-access-key-id [ACCESS-KEY-ID] --r2-secret-access-key [SECRET-ACCESS-KEY] --batch-max-seconds 5 --compression none
 ```
 
 When choosing a name for your pipeline:
@@ -72,12 +72,33 @@ You'll notice that we have set two optional flags while creating the pipeline: `
 Once you create your pipeline, you will receive a HTTP endpoint which you can post data to. You should see output as shown below:
 
 ```sh
-🌀 Authorizing R2 bucket "clickstream-bucket"
-🌀 Creating pipeline named "clickstream-pipeline"
-✅ Successfully created pipeline clickstream-pipeline with ID 91f312b8ca484e5db404bd3e3ef256fn
+🌀 Authorizing R2 bucket "my-bucket"
+🌀 Creating pipeline named "my-clickstream-pipeline"
+✅ Successfully created pipeline my-clickstream-pipeline
 
-You can now send data to your pipeline with:
-curl "https://91f312b8ca484e5db404bd3e3ef256fn.pipelines.cloudflare.com/" -d '[{ "foo":"bar }]'
+Id:    [PIPELINE-ID]
+Name:  my-clickstream-pipeline
+Sources:
+  HTTP:
+    Endpoint:        https://[PIPELINE-ID].pipelines.cloudflare.com/
+    Authentication:  off
+    Format:          JSON
+  Worker:
+    Format:  JSON
+Destination:
+  Type:         R2
+  Bucket:       my-bucket
+  Format:       newline-delimited JSON
+  Compression:  GZIP
+Batch hints:
+  Max bytes:     100 MB
+  Max duration:  300 seconds
+  Max records:   100,000
+
+🎉 You can now send data to your Pipeline!
+
+Send data to your Pipeline's HTTP endpoint:
+curl "https://[PIPELINE-ID].pipelines.cloudflare.com/" -d '[{ ...JSON_DATA... }]'
 ```
 
 ## 3. Post data to your pipeline
@@ -87,7 +108,7 @@ Use a curl command in your terminal to post an array of JSON objects to the endp
 ```sh
 curl -H "Content-Type:application/json" \
     -d '[{"event":"viewedCart", "timestamp": "2025-04-03T15:42:30Z"},{"event":"cartAbandoned", "timestamp": "2025-04-03T15:42:37Z"}]' \
-    <HTTP-endpoint>
+    <HTTP-ENDPOINT>
 ```
 
 Once the pipeline successfully accepts the data, you will receive a success message.
