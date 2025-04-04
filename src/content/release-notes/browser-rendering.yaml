@@ -12,7 +12,7 @@ entries:
   - publish_date: "2025-04-07"
     title: New REST API endpoints
     description: |-
-      * Released three new endpoints to for [capturing structured data] (/browser-rendering/rest-api/json-endpoint/), [extracting markdown from a webpage](/browser-rendering/rest-api/markdown-endpoint/) and [retrieving links from a webpage](/browser-rendering/rest-api/links-endpoint/).
+      * Released three new endpoints to for [capturing structured data](/browser-rendering/rest-api/json-endpoint/), [extracting markdown from a webpage](/browser-rendering/rest-api/markdown-endpoint/) and [retrieving links from a webpage](/browser-rendering/rest-api/links-endpoint/).
   - publish_date: "2025-02-27"
     title: New Browser Rendering REST API
     description: |-
