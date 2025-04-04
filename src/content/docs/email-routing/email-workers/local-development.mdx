@@ -42,16 +42,13 @@ Consider this example Email Worker script that uses the opensource [postal-mime]
 import * as PostalMime from 'postal-mime';
 
 export default {
-
-	async email(message, env: any, ctx: any) {
+	async email(message, env, ctx) {
 		const parser = new PostalMime.default();
 		const rawEmail = new Response(message.raw);
 		const email = await parser.parse(await rawEmail.arrayBuffer());
 		console.log(email);
 	},
-
 };
-```
 
 Now when you run `npx wrangler dev`, wrangler will will expose a local `/cdn-cgi/handler/email` endpoint that you can `POST` email messages to and trigger your Worker script `email()` handler:
 
