@@ -184,7 +184,7 @@ export default {
 			data: `This is an automated reply. We received you email with the subject "${email.subject}", and will handle it as soon as possible.`,
 		});
 
-		var replyMessage = new EmailMessage('sender@example.com', message.from, msg.asRaw());
+		const replyMessage = new EmailMessage('sender@example.com', message.from, msg.asRaw());
 
 		await message.reply(replyMessage);
 		await message.forward("recipient@example.com");
