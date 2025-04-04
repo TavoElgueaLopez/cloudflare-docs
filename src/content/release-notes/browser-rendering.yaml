@@ -5,6 +5,14 @@ productLink: "/browser-rendering/"
 productArea: Developer platform
 productAreaLink: /workers/platform/changelog/platform/
 entries:
+  - publish_date: "2025-04-07"
+    title: Playwright support
+    description: |-
+      * Released a [Playwright version](/browser-rendering/platform/playwright/) in open beta that is compatible with Cloudflare Workers. Available to all customers with a Workers Paid Plan.
+  - publish_date: "2025-04-07"
+    title: New REST API endpoints
+    description: |-
+      * Released three new endpoints to for [capturing structured data] (/browser-rendering/rest-api/json-endpoint/), [extracting markdown from a webpage](/browser-rendering/rest-api/markdown-endpoint/) and [retrieving links from a webpage](/browser-rendering/rest-api/links-endpoint/).
   - publish_date: "2025-02-27"
     title: New Browser Rendering REST API
     description: |-
