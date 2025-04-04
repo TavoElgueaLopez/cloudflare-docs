@@ -7,12 +7,16 @@ sidebar:
 
 import { Render, PackageManagers } from "~/components";
 
-Shards affect a pipeline's throughput. Increasing the shard count for a pipeline increases the maximum throughput.
+Shards affect a pipeline's throughput. Increasing the shard count for a pipeline increases the maximum throughput. By default, each pipeline is configured with two shards.
 
 To set the shard count, use the `--shard-count` flag while creating or updating a pipeline:
 ```sh
 $ npx wrangler pipelines update [PIPELINE-NAME] --shard-count 10
 ```
+
+:::note
+The default shard count will be set to `auto` in the future, to enable automatic horizontal scaling.
+:::
 
 ## How shards work
 ![Pipeline shards](~/assets/images/pipelines/shards.png)
