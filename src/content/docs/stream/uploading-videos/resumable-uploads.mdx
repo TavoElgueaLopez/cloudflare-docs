@@ -16,9 +16,9 @@ If you have a video over 200 MB, we recommend using the [tus protocol](https://t
 
 ## Prerequisites
 
-Before you can upload a video using tus, you will need to download a tus client. 
+Before you can upload a video using tus, you will need to download a tus client.
 
-For more information, refer to the [tus Python client](https://github.com/tus/tus-py-client) which is available through pip, Python's package manager. 
+For more information, refer to the [tus Python client](https://github.com/tus/tus-py-client) which is available through pip, Python's package manager.
 
 ```python title="Install Python client"
 pip install -U tus.py
@@ -28,7 +28,7 @@ pip install -U tus.py
 
 ```sh title="Upload using tus"
 tus-upload --chunk-size 52428800 --header \
-Authorization "Bearer <API_TOKEN>" 
+Authorization "Bearer <API_TOKEN>"
 <PATH_TO_VIDEO> https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/stream
 ```
 
@@ -167,7 +167,7 @@ The tus protocol allows you to add optional parameters in the [`Upload-Metadata`
 
 ### Supported options in `Upload-Metadata`
 
-Setting arbitrary metadata values in the `Upload-Metadata` header sets values in the [meta key in Stream API](/api/operations/stream-videos-list-videos).
+Setting arbitrary metadata values in the `Upload-Metadata` header sets values in the [meta key in Stream API](/api/resources/stream/methods/list/).
 
 - `name`
 

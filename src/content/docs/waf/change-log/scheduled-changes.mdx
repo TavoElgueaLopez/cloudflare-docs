@@ -1,13 +1,15 @@
 ---
 type: table
-pcx_content_type: changelog
+pcx_content_type: release-notes
 title: Scheduled changes
 sidebar:
   order: 2
 tableOfContents: false
 ---
 
-import { RuleID } from "~/components";
+import { RSSButton, RuleID } from "~/components";
+
+<RSSButton href="/waf/change-log/index.xml" />
 
 <table style="width: 100%">
 	<thead>
@@ -23,13 +25,15 @@ import { RuleID } from "~/components";
 	</thead>
 	<tbody>
 		<tr>
-			<td>N/A</td>
-			<td>N/A</td>
-			<td>N/A</td>
-			<td>N/A</td>
-			<td>N/A</td>
-			<td>N/A</td>
-			<td>N/A</td>
+			<td>2025-04-01</td>
+			<td>2025-04-07</td>
+			<td>Log</td>
+			<td>100739A</td>
+			<td>
+				<RuleID id="9209bb65527f4c088bca5ffad6b2d36c" />
+			</td>
+			<td>Next.js - Auth Bypass - CVE:CVE-2025-29927 - 2</td>
+			<td>This is a New Detection</td>
 		</tr>
 	</tbody>
 </table>

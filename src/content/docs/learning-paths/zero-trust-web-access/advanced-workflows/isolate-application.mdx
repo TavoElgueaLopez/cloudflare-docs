@@ -67,9 +67,8 @@ with HTTP policies applied"]
 <TabItem label="API">
 
 ```bash
-curl https://api.cloudflare.com/client/v4/accounts/{account_id}/access/apps/{app_uuid}/policies \
---header "X-Auth-Email: <EMAIL>" \
---header "X-Auth-Key: <API_KEY>" \
+curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/apps/$APP_UUID/policies \
+--header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 --header "Content-Type: application/json" \
 --data '{
   "decision": "allow",
@@ -93,7 +92,7 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/access/apps/{app
 }'
 ```
 
-To create a list of serial numbers, refer to [Create Zero Trust list](/api/operations/zero-trust-lists-create-zero-trust-list).
+To create a list of serial numbers, refer to [Create Zero Trust list](/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/create/).
 
 </TabItem> </Tabs>
 
@@ -114,9 +113,8 @@ To create a list of serial numbers, refer to [Create Zero Trust list](/api/opera
 <TabItem label="API">
 
 ```bash
-curl https://api.cloudflare.com/client/v4/accounts/{account_id}/access/apps/{app_uuid}/policies \
---header "X-Auth-Email: <EMAIL>" \
---header "X-Auth-Key: <API_KEY>" \
+curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/access/apps/$APP_UUID/policies \
+--header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 --header "Content-Type: application/json" \
 --data '{
   "decision": "allow",
@@ -164,9 +162,8 @@ Prevents users on unmanaged devices from downloading any files from your private
 <TabItem label="API">
 
 ```bash
-curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
---header "X-Auth-Email: <EMAIL>" \
---header "X-Auth-Key: <API_KEY>" \
+curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules \
+--header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 --header "Content-Type: application/json" \
 --data '{
   "name": "Disable file downloads in isolated browser",
@@ -220,7 +217,7 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
 }'
 ```
 
-To create a list of serial numbers, refer to [Create Zero Trust list](/api/operations/zero-trust-lists-create-zero-trust-list).
+To create a list of serial numbers, refer to [Create Zero Trust list](/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/create/).
 
 </TabItem> </Tabs>
 
@@ -250,9 +247,8 @@ Block users on unmanaged devices from downloading files that contain credit card
 <TabItem label="API">
 
 ```bash
-curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
---header "X-Auth-Email: <EMAIL>" \
---header "X-Auth-Key: <API_KEY>" \
+curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/gateway/rules \
+--header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
 --header "Content-Type: application/json" \
 --data '{
   "name": "Block credit card numbers",
@@ -315,6 +311,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
 }'
 ```
 
-To configure a DLP profile, refer to [Update predefined profile](/api/operations/dlp-profiles-update-predefined-profile) or [Create custom profile](/api/operations/dlp-profiles-create-custom-profiles).
+To configure a DLP profile, refer to [Update predefined profile](/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/predefined/methods/update/) or [Create custom profile](/api/resources/zero_trust/subresources/dlp/subresources/profiles/subresources/custom/methods/create/).
 
 </TabItem> </Tabs>

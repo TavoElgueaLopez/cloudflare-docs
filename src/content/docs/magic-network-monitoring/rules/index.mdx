@@ -2,11 +2,23 @@
 title: Rules
 pcx_content_type: how-to
 sidebar:
+  label: Manage rules
   order: 4
 
 ---
 
 Magic Network Monitoring rules will allow you to monitor the traffic volume destined for IP addresses or IP prefixes on your network. You can also receive alerts if the volume of traffic arriving at specific destinations exceeds a defined threshold.
+
+:::caution[Invalid account settings error when trying to create a rule]
+If you get the following error when trying to create a rule:
+
+`Invalid account settings request body: account name format contains illegal characters or is not supported`
+
+Make sure the name for your Cloudflare account does not contain unsupported characters, like, for example, `&`, `<`, `>`, `"`, `'`, ``` ` ```.
+
+Refer to [Account name](/fundamentals/setup/account/customize-account/account-name/) to learn how to change your account name.
+:::
+
 
 ## Create rules
 
@@ -46,7 +58,7 @@ Follow the previous steps to [create](#create-rules) or [edit](#edit-or-delete-r
 
 ## Enable per-prefix thresholds with the API
 
-You can also use the [Magic Network Monitoring API](/api/operations/magic-network-monitoring-rules-list-rules) to configure custom thresholds for specific prefixes.
+You can also use the [Magic Network Monitoring API](/api/resources/magic_network_monitoring/subresources/rules/methods/list/) to configure custom thresholds for specific prefixes.
 
 The system uses the concept of rules, and each rule consists of a group of prefixes. All prefixes inside a rule are evaluated as a whole, and you should set up a rule if you want the prefixes' aggregated traffic to trigger an alert or advertisement. For thresholds on singular prefixes or IPs, you can create an individual rule with one prefix and the desired threshold.
 
@@ -76,7 +88,7 @@ For more granular thresholds, create a more focused rule as shown below.
        ]
 ```
 
-Refer to the [Magic Network Monitoring API documentation](/api/operations/magic-network-monitoring-rules-list-rules) for more information.
+Refer to the [Magic Network Monitoring API documentation](/api/resources/magic_network_monitoring/subresources/rules/methods/list/) for more information.
 
 ## Notifications
 

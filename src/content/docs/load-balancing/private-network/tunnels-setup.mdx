@@ -13,9 +13,8 @@ Consider the following steps to learn how to configure Private Network Load Bala
 
 The specific configuration steps can vary depending on your infrastructure and services you are looking to connect. If you are not familiar with Cloudflare Tunnel, the pages linked on each step provide more guidance.
 
-1. [Create a tunnel](/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/#1-create-a-tunnel).
-2. [Deploy the tunnel](/cloudflare-one/connections/connect-networks/deploy-tunnels/) to connect to your data center.
-3. Create a [virtual network](/cloudflare-one/connections/connect-networks/private-net/cloudflared/tunnel-virtual-networks/) and assign it to the tunnel you configured in the previous steps.
+1. [Create a tunnel](/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/#1-create-a-tunnel) to connect your data center to Cloudflare.
+2. Create a [virtual network](/cloudflare-one/connections/connect-networks/private-net/cloudflared/tunnel-virtual-networks/) and assign it to the tunnel you configured in the previous steps.
 
 <Tabs> <TabItem label="Dashboard">
 
@@ -75,9 +74,9 @@ The specific configuration will vary depending on your use case. Refer to the fo
 
 <TabItem label="API">
 
-To get a list of your current virtual networks, use the [List virtual networks](/api/operations/tunnel-virtual-network-list-virtual-networks) API operation.
+To get a list of your current virtual networks, use the [List virtual networks](/api/resources/zero_trust/subresources/networks/subresources/virtual_networks/methods/list/) API operation.
 
-Enable virtual/private IP support by adding the `virtual_network_id` field to the origins in you API request. Refer to the [Cloudflare Load Balancer API documentation](/api/operations/account-load-balancer-pools-create-pool) for more information on how to create a pool using the API.
+Enable virtual/private IP support by adding the `virtual_network_id` field to the origins in you API request. Refer to the [Cloudflare Load Balancer API documentation](/api/resources/load_balancers/subresources/pools/methods/create/) for more information on how to create a pool using the API.
 
 Consider the following example for updating an existing Load Balancer pool with a Virtual IP origin using cURL.
 
