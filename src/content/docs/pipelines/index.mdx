@@ -56,6 +56,16 @@ Batch hints:
 
 Send data to your Pipeline's HTTP endpoint:
 curl "https://0e00c5ff09b34d018152af98d06f5a1xvc.pipelines.cloudflare.com/" -d '[{ ...JSON_DATA... }]'
+
+To send data to your Pipeline from a Worker, add the following configuration to your config file:
+{
+  "pipelines": [
+    {
+      "pipeline": "my-clickstream-pipeline",
+      "binding": "PIPELINE"
+    }
+  ]
+}
 ```
 
 Refer to the [getting started guide](/pipelines/getting-started) to start building with pipelines.
@@ -69,6 +79,10 @@ While in beta, you will not be billed for Pipelines usage. You will be billed on
 
 <Feature header="HTTP as a source" href="/pipelines/build-with-pipelines/http/">
 Each pipeline generates a globally scalable HTTP endpoint, which supports authentication and CORS settings.
+</Feature>
+
+<Feature header="Workers API" href="/pipelines/build-with-pipelines/workers-apis/">
+Send data to a pipeline directly from a Cloudflare Worker.
 </Feature>
 
 <Feature header="Customize output settings" href="/pipelines/build-with-pipelines/output-settings">

@@ -99,6 +99,16 @@ Batch hints:
 
 Send data to your Pipeline's HTTP endpoint:
 curl "https://[PIPELINE-ID].pipelines.cloudflare.com/" -d '[{ ...JSON_DATA... }]'
+
+To send data to your Pipeline from a Worker, add the following configuration to your config file:
+{
+  "pipelines": [
+    {
+      "pipeline": "my-clickstream-pipeline",
+      "binding": "PIPELINE"
+    }
+  ]
+}
 ```
 
 ## 3. Post data to your pipeline
