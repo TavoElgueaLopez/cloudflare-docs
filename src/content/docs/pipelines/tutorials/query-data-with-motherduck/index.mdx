@@ -3,7 +3,7 @@ updated: 2025-02-24
 difficulty: Intermediate
 content_type: 📝 Tutorial
 pcx_content_type: tutorial
-title: Analyzing Clickstream Data with MotherDuck and Cloudflare R2
+title: Ingest data from a Worker, and analyze using MotherDuck
 products:
   - R2
   - Workers
@@ -13,17 +13,18 @@ languages:
   - SQL
 ---
 
-import { Render, PackageManagers, Details } from "~/components";
+import { Render, PackageManagers, Details, WranglerConfig } from "~/components";
 
-In this tutorial, you will learn how to ingest clickstream data to a R2 bucket using Pipelines. You will also learn how to connect the bucket to MotherDuck. You will then query the data using MotherDuck.
+In this tutorial, you will learn how to ingest clickstream data from your website, using Pipelines. We'll also use Pipelines to load this data into an [R2 bucket](/r2/). You will also learn how to connect the bucket to MotherDuck. You will then query the data using MotherDuck.
 
-For this tutorial, you will build a landing page of an e-commerce website. The page will list the products available for sale. A user can click on the view button to view the product details or click on the add to cart button to add the product to their cart. The focus of this tutorial is to show how to ingest the data to R2 and query it using MotherDuck. Hence, the landing page will be a simple HTML page with no functionality.
+For this tutorial, you will build a landing page of an e-commerce website. A user can click on the view button to view the product details or click on the add to cart button to add the product to their cart.
+
+We will use a pipeline to ingest these click events, and load into an R2 bucket. We'll then use MotherDuck to query the events.
 
 ## Prerequisites
 
-1. Create a [R2 bucket](/r2/buckets/create-buckets/) in your Cloudflare account.
-2. A [MotherDuck](https://motherduck.com/) account.
-3. Install [`Node.js`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+1. A [MotherDuck](https://motherduck.com/) account.
+2. Install [`Node.js`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
 
 <Details header="Node.js version manager">
 	Use a Node version manager like [Volta](https://volta.sh/) or
@@ -49,7 +50,7 @@ Create a new Worker project by running the following commands:
     	product="workers"
     	params={{
     	category: "hello-world",
-    	type: "Hello World Worker",
+    	type: "Worker only",
     	lang: "TypeScript",
     	}}
     />
@@ -60,20 +61,24 @@ Navigate to the `e-commerce-pipelines` directory:
 cd e-commerce-pipelines
 ```
 
-## 2. Create the front-end
+## 2. Create the frontend
 
 Using Static Assets, you can serve the frontend of your application from your Worker. To use Static Assets, you need to add the required bindings to your `wrangler.toml` file.
+
+<WranglerConfig>
 
 ```toml
 [assets]
 directory = "public"
 ```
 
-Next, create a `public` directory and add an `index.html` file. The `index.html` file should contain the following HTML code:
+</WranglerConfig>
+
+Next, create a `public` directory in the root of your project. Add an `index.html` file to the `public` directory. The `index.html` file should contain the following HTML code:
 
 <details>
 	<summary>Select to view the HTML code</summary>
-```html 
+```html
 <!DOCTYPE html>
 <html>
 	<head>
@@ -182,7 +187,7 @@ Next, create a `public` directory and add an `index.html` file. The `index.html`
     </body>
 
 </html>
-  
+
 ```
 </details>
 
@@ -302,26 +307,28 @@ The `handleClick` function does the following:
 - Creates a `POST` request to the `/api/clickstream` endpoint with the data.
 - Logs any errors that occur.
 
-## 4. Create a pipeline
+## 4. Create an R2 bucket
+We'll create a new R2 bucket to use as the sink for our pipeline. Create a new r2 bucket `clickstream-data` using the [Wrangler CLI](/workers/wrangler/):
 
-You need to create a new pipeline and connect it to your R2 bucket.
+```sh
+npx wrangler r2 bucket create clickstream-data
+```
+
+## 5. Create a pipeline
+You need to create a new pipeline and connect it to the R2 bucket we created in the previous step.
 
 Create a new pipeline `clickstream-pipeline` using the [Wrangler CLI](/workers/wrangler/):
 
 ```sh
-npx wrangler pipelines create clickstream-pipeline --r2 <BUCKET_NAME>
+npx wrangler pipelines create clickstream-pipeline --r2-bucket clickstream-data
 ```
-
-Replace `<BUCKET_NAME>` with the name of your R2 bucket.
 
 When you run the command, you will be prompted to authorize Cloudflare Workers Pipelines to create R2 API tokens on your behalf. These tokens are required by your Pipeline. Your Pipeline uses these tokens when loading data into your bucket. You can approve the request through the browser link which will open automatically.
 
 ```output
-🌀 Authorizing R2 bucket <BUCKET_NAME>
+🌀 Authorizing R2 bucket clickstream-data
 🌀 Creating pipeline named "clickstream-pipeline"
 ✅ Successfully created pipeline "clickstream-pipeline" with id <PIPELINES_ID>
-You can now send data to your pipeline with:
-curl "https://<PIPELINES_ID>.pipelines.cloudflare.com" -d '[{"foo": "bar"}]'
 ```
 
 ## 5. Send clickstream data to your pipeline
@@ -329,8 +336,6 @@ curl "https://<PIPELINES_ID>.pipelines.cloudflare.com" -d '[{"foo": "bar"}]'
 The front-end of the application makes a call to the `/api/clickstream` endpoint to send the clickstream data to your pipeline. The `/api/clickstream` endpoint is handled by a Worker in the `src/index.ts` file.
 
 You will use the pipelines binding to send the clickstream data to your pipeline. In your `wrangler` file, add the following bindings:
-
-import { WranglerConfig } from "~/components";
 
 <WranglerConfig>
 
