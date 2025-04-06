@@ -17,9 +17,9 @@ import { Render, PackageManagers, Details, WranglerConfig } from "~/components";
 
 In this tutorial, you will learn how to build a data lake of website interaction events (clickstream data), using Pipelines.
 
-Data lakes are a way to store large volumes of raw data in an object storage service such as [R2](/r2). You can run queries over a data lake, to analyze the raw events and generate product insights.
+Data lakes are a way to store large volumes of raw data in an object storage service such as [R2](/r2). You can run queries over a data lake to analyze the raw events.
 
-For this tutorial, you will build a landing page for an e-commerce website. Users can click on the website, to view products or add them to the cart. As the user clicks on the page, events will be sent to a pipeline. These events are "client-side"; they're sent directly from a users' browser to your pipeline. Your pipeline will automatically batch the ingested data, build output files, and deliver them to an [R2 bucket](/r2) to build your data lake.
+For this tutorial, you will build a landing page for an e-commerce website. Users can click on the website, to view products or add them to the cart. When a user clicks on buttons on the page, events will be sent to a pipeline. These events are sent from the client-side (directly from the user's browser). Your pipeline will automatically batch the ingested data, build output files, and deliver them to an [R2 bucket](/r2) to build your data lake.
 
 ## Prerequisites
 
