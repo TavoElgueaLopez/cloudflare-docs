@@ -406,19 +406,27 @@ Deployed e-commerce-pipelines-client-side triggers (7.60 sec)
 Current Version ID: <VERSION_ID>
 ```
 
-Update the CORS settings to add the deployed URL. Replace `<URL>` with the URL provided in the output of the deploy command.
+We now need to update the pipeline's CORS settings to include the URL of our newly deployed application. Run the command below, and replace `<URL>` with the URL of the application.
 
 ```sh
-npx wrangler pipelines update clickstream-pipeline-client --cors-origins https://<URL>.workers.dev
+npx wrangler pipelines update clickstream-pipeline-client --cors-origins http://localhost:8787 https://<URL>.workers.dev
 ```
 
-You can access the application at the deployed URL. When you click on the `View Details` or `Add to Cart` button, the clickstream data will be sent to your pipeline.
+Now, you can access the application at the deployed URL. When you click on the `View Details` or `Add to Cart` button, the clickstream data will be sent to your pipeline.
 
 ## 8. View the data in R2
 
 You can view the data in the R2 bucket. If you are not signed in to the Cloudflare dashboard, sign in and navigate to the R2 overview page.
 
-Open the bucket you configured for your pipeline in Step 3. You can see the clickstream data in the `Objects` column.
+Open the bucket you configured for your pipeline in Step 3. You can see files, representing the clickstream data. These files are newline delimited JSON files. Each row in a file represents one click event. Download one of the files, and open it in your preferred text editor to see the output:
+
+```sh
+{"timestamp":"2025-04-06T16:24:29.213Z","session_id":"1234567890abcdef","user_id":"user965","event_data":{"event_id":673,"event_type":"product_view","page_url":"https://<URL>.workers.dev/","timestamp":"2025-04-06T16:24:29.213Z","product_id":2},"device_info":{"browser":"Chrome","os":"Linux","device":"Mobile","userAgent":"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Mobile Safari/537.36"},"referrer":""}
+{"timestamp":"2025-04-06T16:24:30.436Z","session_id":"1234567890abcdef","user_id":"user998","event_data":{"event_id":787,"event_type":"product_view","page_url":"https://<URL>.workers.dev/","timestamp":"2025-04-06T16:24:30.436Z","product_id":4},"device_info":{"browser":"Chrome","os":"Linux","device":"Mobile","userAgent":"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Mobile Safari/537.36"},"referrer":""}
+{"timestamp":"2025-04-06T16:24:31.330Z","session_id":"1234567890abcdef","user_id":"user22","event_data":{"event_id":529,"event_type":"product_view","page_url":"https://<URL>.workers.dev/","timestamp":"2025-04-06T16:24:31.330Z","product_id":4},"device_info":{"browser":"Chrome","os":"Linux","device":"Mobile","userAgent":"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Mobile Safari/537.36"},"referrer":""}
+{"timestamp":"2025-04-06T16:24:31.879Z","session_id":"1234567890abcdef","user_id":"user750","event_data":{"event_id":756,"event_type":"product_view","page_url":"https://<URL>.workers.dev/","timestamp":"2025-04-06T16:24:31.879Z","product_id":4},"device_info":{"browser":"Chrome","os":"Linux","device":"Mobile","userAgent":"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Mobile Safari/537.36"},"referrer":""}
+{"timestamp":"2025-04-06T16:24:33.978Z","session_id":"1234567890abcdef","user_id":"user333","event_data":{"event_id":467,"event_type":"product_view","page_url":"https://<URL>.workers.dev/","timestamp":"2025-04-06T16:24:33.978Z","product_id":6},"device_info":{"browser":"Chrome","os":"Linux","device":"Mobile","userAgent":"Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Mobile Safari/537.36"},"referrer":""}
+```
 
 ## Conclusion
 
