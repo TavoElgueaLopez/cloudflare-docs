@@ -48,7 +48,7 @@ Create a new Worker project by running the following commands:
     	product="workers"
     	params={{
     	category: "hello-world",
-    	type: "Hello World Worker",
+    	type: "Worker only",
     	lang: "TypeScript",
     	}}
     />
@@ -204,7 +204,7 @@ You need to create a new pipeline and connect it to your R2 bucket.
 Create a new pipeline `clickstream-pipeline-client` using the [Wrangler CLI](/workers/wrangler/):
 
 ```sh
-npx wrangler pipelines create clickstream-pipeline-client --r2-bucket <BUCKET_NAME> --compression none
+npx wrangler pipelines create clickstream-pipeline-client --r2-bucket <BUCKET_NAME> --compression none --batch-max-seconds 5
 ```
 
 Replace `<BUCKET_NAME>` with the name of your R2 bucket.
@@ -212,31 +212,40 @@ Replace `<BUCKET_NAME>` with the name of your R2 bucket.
 When you run the command, you will be prompted to authorize Cloudflare Workers Pipelines to create R2 API tokens on your behalf. These tokens are required by your Pipeline. Your Pipeline uses these tokens when loading data into your bucket. You can approve the request through the browser link which will open automatically.
 
 :::note
-In the above command, you create a pipeline with the `--compression none` flag. This flag will prevent the pipeline from compressing the data before storing it in the R2 bucket. This is useful for testing purposes. In a production environment, you should use compression. We recommend keeping the default settings.
+The above command creates a pipeline using two optional flags: `--compression none`, and `--batch-max-seconds 5`.
+
+With these flags, your pipeline will deliver an uncompressed file of data to your R2 bucket every 5 seconds.
+
+These flags are useful for testing, but we recommend keeping the default settings in a production environment.
 :::
 
 ```output
-🌀 Authorizing R2 bucket "<BUCKET_NAME>"
-Opening a link in your default browser: https://oauth.pipelines.cloudflare.com/oauth/login?accountId=<ACCOUNT_ID>&bucketName=<BUCKET_NAME>&pipelineName=clickstream-pipeline-client
-🌀 Checking access to R2 bucket "<BUCKET_NAME>"
-🌀 Creating Pipeline named "clickstream-pipeline-client"
-✅ Successfully created Pipeline "clickstream-pipeline-client" with id <PIPELINE_ID>
+✅ Successfully created Pipeline "clickstream-pipeline-client" with ID 0a10c577652949718bc014f4efxea241
+
+Id:    0a10c577652949718bc014f4efxea241
+Name:  clickstream-pipeline-client
+Sources:
+  HTTP:
+    Endpoint:        https://0a10c577652949718bc014f4efxea241.pipelines.cloudflare.com
+    Authentication:  off
+    Format:          JSON
+  Worker:
+    Format:  JSON
+Destination:
+  Type:         R2
+  Bucket:       apr-6
+  Format:       newline-delimited JSON
+  Compression:  NONE
+  Batch hints:
+    Max bytes:     100 MB
+    Max duration:  300 seconds
+    Max records:   10,000,000
+
 🎉 You can now send data to your Pipeline!
-
-To start interacting with this Pipeline from a Worker, open your Worker’s config file and add the following binding configuration:
-
-{
-  "pipelines": [
-    {
-      "pipeline": "clickstream-pipeline-client",
-      "binding": "PIPELINE"
-    }
-  ]
-}
 
 Send data to your Pipeline's HTTP endpoint:
 
-	curl "https://<PIPELINE_ID>.pipelines.cloudflare.com" -d '[{"foo": "bar"}]'
+curl "https://0a10c577652949718bc014f4efxea241.pipelines.cloudflare.com" -d '[{"foo": "bar"}]'
 ```
 
 Make a note of the URL of the pipeline. You will use this URL to send the clickstream data from the client-side.
