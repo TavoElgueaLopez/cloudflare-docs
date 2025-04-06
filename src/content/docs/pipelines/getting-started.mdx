@@ -123,11 +123,11 @@ curl -H "Content-Type:application/json" \
 
 Once the pipeline successfully accepts the data, you will receive a success message.
 
-Pipelines handle batching the data, so you can continue posting data to the Pipeline. Once a batch is filled up, the data will be partitioned by date, and written to your R2 bucket.
+You can continue posting data to the pipeline. The pipeline will automatically buffer ingested data. Based on the batch settings (`--batch-max-seconds`) specified in step 2, a batch will be generated every 5 seconds, turned into a file, and written out to your R2 bucket.
 
 ## 4. Verify in R2
 
-Open the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/overview), and navigate to the R2 bucket you created in step 1. You will see a directory, labeled with today's date (such as `event_date=2025-03-05`). Click on the directory, and you'll see a sub-directory with the current hour (such as `hr=04`). You should see a JSON file, containing the data you posted in step 3. Download the file, and open it in a text editor of your choice, to verify that the data posted in step 2 is present.
+Open the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/overview), and navigate to the R2 bucket you created in step 1. You will see a directory, labeled with today's date (such as `event_date=2025-03-05`). Click on the directory, and you'll see a sub-directory with the current hour (such as `hr=04`). You should see a newline delimited JSON file, containing the data you posted in step 3. Download the file, and open it in a text editor of your choice, to verify that the data posted in step 2 is present.
 
 ***
 
