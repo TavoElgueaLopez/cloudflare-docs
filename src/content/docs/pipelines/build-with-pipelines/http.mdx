@@ -10,7 +10,7 @@ head:
 
 import { Render, PackageManagers } from "~/components";
 
-Pipelines support data ingestion over HTTP. When you create a new pipeline, you'll receive a globally scalable ingestion endpoint. To ingest data, make HTTP POST requests to the endpoint.
+Pipelines support data ingestion over HTTP. When you create a new pipeline, you will receive a globally scalable ingestion endpoint. To ingest data, make HTTP POST requests to the endpoint.
 
 ```sh
 $ npx wrangler@latest pipelines create my-clickstream-pipeline --r2-bucket my-bucket
@@ -57,7 +57,7 @@ curl -X POST https://<PIPELINE-ID>.pipelines.cloudflare.com \
 ```
 
 ## Turning HTTP ingestion off
-By default, ingestion via HTTP is turned on. You can turn it off by excluding it from the list of sources, by using `--sources` when creating or updating a pipeline.
+By default, ingestion via HTTP is turned on. You can turn it off by excluding it from the list of sources by using `--sources` when creating or updating a pipeline.
 
 ```sh
 $ npx wrangler pipelines create [PIPELINE-NAME] --r2-bucket [R2-BUCKET-NAME] --sources worker
@@ -76,9 +76,9 @@ Once authentication is turned on, you will need to include a Cloudflare API toke
 
 ### Get API token
 1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select your account.
-2. Navigate to your [API Keys](https://dash.cloudflare.com/profile/api-tokens)
-3. Select *Create Token*
-4. Choose the template for Workers Pipelines. Click on *continue to summary*, and finally on *create token*. Make sure to copy the API token, and save it securely.
+2. Navigate to your [API Keys](https://dash.cloudflare.com/profile/api-tokens).
+3. Select **Create Token**.
+4. Choose the template for Workers Pipelines. Select **Continue to summary** > **Create token**. Make sure to copy the API token and save it securely.
 
 ### Making authenticated requests
 Include the API token you created in the previous step in the headers for your request:
@@ -91,7 +91,7 @@ curl https://<PIPELINE-ID>.pipelines.cloudflare.com
 ```
 
 ## Specifying CORS Settings
-If you want to use your pipeline to ingest client side data, such as website clicks, you'll need to configure your [Cross-Origin Resource Sharing (CORS) settings](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+If you want to use your pipeline to ingest client side data, such as website clicks, you will need to configure your [Cross-Origin Resource Sharing (CORS) settings](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
 Without setting your CORS settings, browsers will restrict requests made to your pipeline endpoint. For example, if your website domain is `https://my-website.com`, and you want to post client side data to your pipeline at `https://<PIPELINE-ID>.pipelines.cloudflare.com`, without CORS settings, the request will fail.
 
@@ -106,4 +106,4 @@ You can specify that all cross origin requests are accepted. We recommend only u
 $ npx wrangler pipelines update [PIPELINE-NAME] --cors-origins "*"
 ```
 
-After your the `--cors-origins` have been set on your pipeline, your pipeline will respond to preflight requests and POST requests with the appropriate `Access-Control-Allow-Origin` headers set.
+After the `--cors-origins` have been set on your pipeline, your pipeline will respond to preflight requests and `POST` requests with the appropriate `Access-Control-Allow-Origin` headers set.

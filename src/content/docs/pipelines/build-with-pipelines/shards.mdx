@@ -24,12 +24,12 @@ The default shard count will be set to `auto` in the future, with support for au
 Each pipeline is composed of stateless, independent shards. These shards are spun up when a pipeline is created. Each shard is composed of layers of [Durable Objects](/durable-objects). The Durable Objects buffer data, replicate for durability, handle compression, and delivery to R2.
 
 When a record is sent to a pipeline:
-1. The Pipelines [Worker](/workers) receives the record
-2. The record is routed to to one of the shards
-3. The record is handled by a set of Durable Objects, which commmit the record to storage, and replicate for durability.
-4. Records accumulate, until the [batch definitions](/pipelines/build-with-pipelines/output-settings/#customize-batch-behavior) are met.
-5. The batch is written to an output file, and optionally compressed.
-6. The output file is delivered to the configured R2 bucket
+1. The Pipelines [Worker](/workers) receives the record.
+2. The record is routed to to one of the shards.
+3. The record is handled by a set of Durable Objects, which commit the record to storage and replicate for durability.
+4. Records accumulate until the [batch definitions](/pipelines/build-with-pipelines/output-settings/#customize-batch-behavior) are met.
+5. The batch is written to an output file and optionally compressed.
+6. The output file is delivered to the configured R2 bucket.
 
 Increasing the number of shards will increase the maximum throughput of a pipeline, as well as the number of output files created.
 
@@ -43,12 +43,12 @@ Increasing the shard count also increases the number of output files that your p
 
 ## How should I decide the number of shards to use?
 Choose a shard count based on these factors:
-* How many requests per second you will make to your pipeline
-* How much data per second you will send to your pipeline
+* The number of requests per second you will make to your pipeline
+* The amount of data per second you will send to your pipeline
 
-Each shard is capable of handling approximately 7,000 requests per second, or ingesting 7 MB / s of data. Either factor might act as the bottleneck, so choose the shard count based on the higher number.
+Each shard is capable of handling approximately 7,000 requests per second, or ingesting 7 MB/s of data. Either factor might act as the bottleneck, so choose the shard count based on the higher number.
 
-For example, if you estimate that you will ingest 70 MB / s, making 70,000 requests per second, setup a pipeline with 10 shards. However, if you estimate that you will ingest 70 MB / s while making 100,000 requests per second, setup a pipeline with 15 shards.
+For example, if you estimate that you will ingest 70 MB/s, making 70,000 requests per second, setup a pipeline with 10 shards. However, if you estimate that you will ingest 70 MB/s while making 100,000 requests per second, setup a pipeline with 15 shards.
 
 ## Limits
 | Setting                                   | Default     | Minimum   | Maximum     |

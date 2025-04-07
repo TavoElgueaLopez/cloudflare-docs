@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-Cloudflare Pipelines let you ingest data from a source, and deliver to a sink. It's built for high volume, real time data streams. Each pipeline can ingest up to 100 MB/s of data, via HTTP or a Worker, and load the data as files in an R2 bucket.
+Cloudflare Pipelines let you ingest data from a source and deliver to a sink. It is built for high volume, real time data streams. Each pipeline can ingest up to 100 MB/s of data, via HTTP or a Worker, and load the data as files in an R2 bucket.
 
 This guide explains how a pipeline works.
 
@@ -24,7 +24,7 @@ Multiple sources can be active on a single pipeline simultaneously. For example,
 Pipelines can ingest JSON serializable records.
 
 ### Sinks
-Pipelines supports delivering data into [R2 Object Storage](/r2/). Ingested data is delivered as newline delimited JSON files (`ndjson`), with optional compression. Multiple pipelines can be configured to deliver data to the same R2 bucket.
+Pipelines supports delivering data into [R2 Object Storage](/r2/). Ingested data is delivered as newline delimited JSON files (`ndjson`) with optional compression. Multiple pipelines can be configured to deliver data to the same R2 bucket.
 
 ## Data durability
 Pipelines are designed to be reliable. Any data which is successfully ingested will be delivered to the configured R2 bucket, provided that the [R2 API credentials associated with a pipeline](/r2/api/tokens/) remain valid.
@@ -43,8 +43,8 @@ Pipelines update without dropping records. Updating an existing pipeline effecti
 This means that updates might take a few minutes to go into effect. For example, if you update a pipeline's sink, previously ingested data might continue to be delivered into the old sink.
 
 ## Backpressure behavior
-If you send too much data, the pipeline will communicate backpressure by returning a 429 response to HTTP requests, or throwing an error if using the Workers API. Refer to the [limits](/pipelines/platform/limits) to learn how much volume a single pipeline can support. You might see 429 responses if you are sending too many requests, or sending too much data.
+If you send too much data, the pipeline will communicate backpressure by returning a 429 response to HTTP requests, or throwing an error if using the Workers API. Refer to the [limits](/pipelines/platform/limits) to learn how much volume a single pipeline can support. You might see 429 responses if you are sending too many requests or sending too much data.
 
 If you are consistently seeing backpressure from your pipeline, consider the following strategies:
-* Increase the [shard count](/pipelines/build-with-pipelines/shards), to increase the maxiumum throughput of your pipeline.
-* Send data to a second pipeline if you receive an error. You can setup multiple pipelines to write to the same R2 bucket.
+* Increase the [shard count](/pipelines/build-with-pipelines/shards) to increase the maximum throughput of your pipeline.
+* Send data to a second pipeline if you receive an error. You can set up multiple pipelines to write to the same R2 bucket.

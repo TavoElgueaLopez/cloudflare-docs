@@ -4,7 +4,6 @@ product:
   title: Pipelines
   url: /pipelines/
   group: Developer platform
-  preview_tryout: true
 
 meta:
   title: Cloudflare Pipelines Docs
