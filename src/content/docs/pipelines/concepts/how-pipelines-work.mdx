@@ -1,6 +1,6 @@
 ---
 pcx_content_type: concept
-title: How Pipelines Work
+title: How pipelines Work
 sidebar:
   order: 1
 ---
@@ -16,9 +16,9 @@ This guide explains how a pipeline works.
 ### Sources
 Pipelines supports the following sources:
 * [HTTP Clients](/pipelines/build-with-pipelines/http), with optional authentication and CORS settings
-* [Cloudflare Worker](/workers/), using the [Pipelines Workers API](/pipelines/build-with-pipelines/workers-apis)
+* [Cloudflare Workers](/workers/), using the [Pipelines Workers API](/pipelines/build-with-pipelines/workers-apis)
 
-Multiple sources can be active on a single pipeline simultaneously. For example, you can create a pipeline which accepts data from both a Worker, and via HTTP. Multiple workers can be configured to send data to the same pipeline. There is no limit to the number of source clients.
+Multiple sources can be active on a single pipeline simultaneously. For example, you can create a pipeline which accepts data from Workers and via HTTP. Multiple workers can be configured to send data to the same pipeline. There is no limit to the number of source clients.
 
 ### Data format
 Pipelines can ingest JSON serializable records.
@@ -27,7 +27,7 @@ Pipelines can ingest JSON serializable records.
 Pipelines supports delivering data into [R2 Object Storage](/r2/). Ingested data is delivered as newline delimited JSON files (`ndjson`), with optional compression. Multiple pipelines can be configured to deliver data to the same R2 bucket.
 
 ## Data durability
-Pipelines are designed to be reliable. Data sent to a pipeline should be delivered successfully to the configured R2 bucket, provided that the [R2 API credentials associated with a pipeline](/r2/api/tokens/) remain valid.
+Pipelines are designed to be reliable. Any data which is successfully ingested will be delivered to the configured R2 bucket, provided that the [R2 API credentials associated with a pipeline](/r2/api/tokens/) remain valid.
 
 Each pipeline maintains a storage buffer. Requests to send data to a pipeline receive a successful response only after the data is committed to this storage buffer.
 
