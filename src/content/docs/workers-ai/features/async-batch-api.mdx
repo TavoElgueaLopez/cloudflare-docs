@@ -217,7 +217,7 @@ export default {
 				"@cf/meta/llama-3.3-70b-instruct-batch",
 				{
 					prompts: data.prompts,
-				},
+				}, { queueRequest: true }
 			);
 
 			// Return the response from the AI API
