@@ -3,20 +3,25 @@ title: Spark
 pcx_content_type: example
 ---
 
-Below is an example of how you can build an [Apache Spark](https://spark.apache.org/) application (with Scala) which connects to the R2 Data Catalog. This application is built to run locally, but it can be adapted to run on a cluster.
+import { FileTree } from "~/components"
+
+
+Below is an example of how you can build an [Apache Spark](https://spark.apache.org/) application (with Scala) which connects to R2 Data Catalog. This application is built to run locally, but it can be adapted to run on a cluster.
 
 ## Prerequisites
 
 - Sign up for a [Cloudflare account](https://dash.cloudflare.com/sign-up/workers-and-pages).
-- Create an [R2 bucket](/r2/buckets/) and enable the data catalog.
-- Create an [R2 API token](/r2/api/tokens/) with both [R2 and data catalog permissions](/r2/api/tokens/#permissions).
+- [Create an R2 bucket](/r2/buckets/create-buckets/) and enable the data catalog.
+- [Create an R2 API token](/r2/api/tokens/) with both [R2 and data catalog permissions](/r2/api/tokens/#permissions).
 - Install Java 17, Spark 3.5.3, and SBT 1.10.11
   - Note: The specific versions of tools are critical for getting things to work in this example.
   - Tip: [“SDKMAN”](https://sdkman.io/) is a convenient package manager for installing SDKs.
 
 ## Example usage
 
-To start, create a new empty project directory somewhere on your machine. Inside that directory, create the following file at `src/main/scala/com/example/R2DataCatalogDemo.scala`. This will serve as the main entry point for your Spark application.
+To start, create a new empty project directory somewhere on your machine.
+
+Inside that directory, create the following file at `src/main/scala/com/example/R2DataCatalogDemo.scala`. This will serve as the main entry point for your Spark application.
 
 ```java
 package com.example
@@ -105,7 +110,7 @@ To enable the [sbt-assembly plugin](https://github.com/sbt/sbt-assembly?tab=read
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "1.2.0")
 ```
 
-Make sure Java, Spark, and sbt are installed and available in your shell. If you're using SDKMAN, you can install them as shown below:
+Make sure Java, Spark, and sbt are installed and available in your shell. If you are using SDKMAN, you can install them as shown below:
 
 ```bash
 sdk install java 17.0.14-amzn
@@ -121,7 +126,7 @@ sbt clean assembly
 
 After building, the output JAR should be located at `target/scala-2.12/R2DataCatalogDemo-assembly-1.0.jar`.
 
-To run the application, you'll use `spark-submit`. Below is an example shell script (`submit.sh`) that includes the necessary Java compatability flags for Spark on Java 17:
+To run the application, you will use `spark-submit`. Below is an example shell script (`submit.sh`) that includes the necessary Java compatability flags for Spark on Java 17:
 
 ```
 # We need to set these "--add-opens" so that Spark can run on Java 17 (it needs access to
@@ -142,23 +147,22 @@ chmod +x submit.sh
 
 At this point, your project directory should be structured like this:
 
-```
-.
-├── Makefile
-├── README.md
-├── build.sbt
-├── project
-│   ├── assembly.sbt
-│   ├── build.properties
-│   └── project
-├── spark-submit.sh
-└── src
-    └── main
-        └── scala
-            └── com
-                └── example
-                    └── R2DataCatalogDemo.scala
-```
+<FileTree>
+- Makefile
+- README.md
+- build.sbt
+- project
+  - assembly.sbt
+  - build.properties
+  - project
+- spark-submit.sh
+- src
+  - main
+	  - scala
+		  - com
+			  - example
+				  - R2DataCatalogDemo.scala
+</FileTree>
 
 Before submitting the job, make sure you have the required environment variable set for your catalog URI, warehouse, and [Cloudflare API token](/r2/api/tokens/).
 
@@ -168,7 +172,7 @@ export WAREHOUSE=
 export TOKEN=
 ```
 
-You're now ready to run the job:
+You are now ready to run the job:
 
 ```bash
 ./submit.sh

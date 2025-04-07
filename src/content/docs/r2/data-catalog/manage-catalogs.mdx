@@ -1,6 +1,6 @@
 ---
 pcx_content_type: configuration
-title: Managing catalogs
+title: Manage catalogs
 description: Understand how to manage Iceberg REST catalogs associated with R2 buckets
 sidebar:
   order: 3
@@ -18,7 +18,10 @@ import {
 	LinkCard,
 } from "~/components";
 
-Learn how to enable and disable [R2 Data Catalog](/r2/data-catalog/) on your buckets and authenticate Iceberg engines using API tokens.
+Learn how to:
+
+- Enable and disable [R2 Data Catalog](/r2/data-catalog/) on your buckets.
+- Authenticate Iceberg engines using API tokens.
 
 ## Enable R2 Data Catalog on a bucket
 
@@ -72,7 +75,7 @@ To connect your Iceberg engine to R2 Data Catalog, you will need a Cloudflare AP
 2. Copy the **Token value** from your new API token.
 3. In your engine configuration, provide this token as a bearer token.
    Internally, this token will be sent as:
-	 
+
 	 ```
 	 Authorization: Bearer <TOKEN_VALUE>
 	 ```

@@ -8,13 +8,13 @@ Below is an example of using [Snowflake](https://docs.snowflake.com/en/user-guid
 ## Prerequisites
 
 - Sign up for a [Cloudflare account](https://dash.cloudflare.com/sign-up/workers-and-pages).
-- Create an [R2 bucket](/r2/buckets/) and enable the data catalog.
-- Create an [R2 API token](/r2/api/tokens/) with both [R2 and data catalog permissions](/r2/api/tokens/#permissions).
+- [Create an R2 bucket](/r2/buckets/create-buckets/) and enable the data catalog.
+- [Create an R2 API token](/r2/api/tokens/) with both [R2 and data catalog permissions](/r2/api/tokens/#permissions).
 - A [Snowflake](https://www.snowflake.com/) account with the necessary privileges to create external volumes and catalog integrations.
 
 ## Example usage
 
-In your Snowflake [SQL worksheet](https://docs.snowflake.com/en/user-guide/ui-snowsight-worksheets-gs) or [notebook](https://docs.snowflake.com/en/user-guide/ui-snowsight/notebooks) run the following commands:
+In your Snowflake [SQL worksheet](https://docs.snowflake.com/en/user-guide/ui-snowsight-worksheets-gs) or [notebook](https://docs.snowflake.com/en/user-guide/ui-snowsight/notebooks), run the following commands:
 
 ```sql
 -- Create a database (if you don't already have one) to organize your external data
