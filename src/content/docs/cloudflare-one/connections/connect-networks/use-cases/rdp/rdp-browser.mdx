@@ -90,11 +90,11 @@ Ensure that only **Allow** or **Block** policies are present. **Bypass** and **S
 
 In the [Cloudflare dashboard](https://dash.cloudflare.com/login), go to **DNS** > **Records** and verify that a [DNS record](/dns/manage-dns-records/how-to/create-dns-records/) exists for your domain. The DNS record allows Cloudflare to proxy browser-based RDP traffic to your private network. Any arbitrary DNS record will work.
 
-If you do not already have a DNS record, [create a new DNS record](/dns/manage-dns-records/how-to/create-dns-records/#create-dns-records). For example, you could create a `CNAME` record that points your Access application public hostname (`app.example.com`) to your Cloudflare Tunnel (`<tunnel-id>.cfargotunnel.com`):
+If you do not already have a DNS record, [create a new DNS record](/dns/manage-dns-records/how-to/create-dns-records/#create-dns-records). For example, you could create an `AAAA` record that points your Access application public hostname (`app.example.com`) to the IPv6 [discard address range](https://www.rfc-editor.org/rfc/rfc6666.html):
 
-- **Type**: _CNAME_
+- **Type**: _AAAA_
 - **Name**: `app`
-- **Target**: `c1744f8b-faa1-48a4-9e5c-02ac921467fa.cfargotunnel.com`
+- **IPv6 address**: `100::`
 - **Proxy status**: On
 
 ## 5. Connect as a user
