@@ -7,8 +7,6 @@ sidebar:
 
 Cloudflare Pipelines let you ingest data from a source and deliver to a sink. It is built for high volume, real time data streams. Each pipeline can ingest up to 100 MB/s of data, via HTTP or a Worker, and load the data as files in an R2 bucket.
 
-This guide explains how a pipeline works.
-
 ![Pipelines Architecture](~/assets/images/pipelines/architecture.png)
 
 ## Supported sources, data formats, and sinks
@@ -27,7 +25,7 @@ Pipelines can ingest JSON serializable records.
 Pipelines supports delivering data into [R2 Object Storage](/r2/). Ingested data is delivered as newline delimited JSON files (`ndjson`) with optional compression. Multiple pipelines can be configured to deliver data to the same R2 bucket.
 
 ## Data durability
-Pipelines are designed to be reliable. Any data which is successfully ingested will be delivered to the configured R2 bucket, provided that the [R2 API credentials associated with a pipeline](/r2/api/tokens/) remain valid.
+Pipelines are designed to be reliable. Any data which is successfully ingested will be delivered, at least once, to the configured R2 bucket, provided that the [R2 API credentials associated with a pipeline](/r2/api/tokens/) remain valid. Ordering of records is best effort.
 
 Each pipeline maintains a storage buffer. Requests to send data to a pipeline receive a successful response only after the data is committed to this storage buffer.
 
@@ -35,7 +33,7 @@ Ingested data accumulates, until a sufficiently [large batch of data](/pipelines
 
 Transient failures, such as network connectivity issues, are automatically retried.
 
-However, if the [R2 API credentials associated with a pipeline](/r2/api/tokens/) expire or are revoked, data delivery will fail. In this scenario, some data might continue to accumulate in the buffers, but the pipeline will eventually start rejecting requests.
+However, if the [R2 API credentials associated with a pipeline](/r2/api/tokens/) expire or are revoked, data delivery will fail. In this scenario, some data might continue to accumulate in the buffers, but the pipeline will eventually start rejecting requests once the buffers are full.
 
 ## Updating a pipeline
 Pipelines update without dropping records. Updating an existing pipeline effectively creates a new instance of the pipeline. Requests are gracefully re-routed to the new instance. The old instance continues to write data into your configured sink. Once the old instance is fully drained, it is spun down.

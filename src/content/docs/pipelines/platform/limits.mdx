@@ -19,7 +19,7 @@ import { Render } from "~/components"
 | Maximum batch duration	                      | 300s 	                                          							|
 
 
-## What happens if I exceed the requests per second or throughput limits?
+## Exceeding requests per second or throughput limits
 If you consistently exceed the requests per second or throughput limits, your pipeline might not be able to keep up with the load. The pipeline will communicate backpressure by returning a 429 response to HTTP requests or throwing an error if using the Workers API.
 
 If you are consistently seeing backpressure from your pipeline, consider the following strategies:

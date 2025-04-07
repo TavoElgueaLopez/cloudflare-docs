@@ -34,14 +34,14 @@ When a record is sent to a pipeline:
 Increasing the number of shards will increase the maximum throughput of a pipeline, as well as the number of output files created.
 
 ### Example
-Your workload might require making 5,0000 requests per second to a pipeline. If you create a pipeline with a single shard, all 5,000 requests will be routed to the same shard. If your pipeline has been configured with a maximum batch duration of 1 second, every second, all 5,000 requests will be batched, and a single file will be delivered.
+Your workload might require making 5,000 requests per second to a pipeline. If you create a pipeline with a single shard, all 5,000 requests will be routed to the same shard. If your pipeline has been configured with a maximum batch duration of 1 second, every second, all 5,000 requests will be batched, and a single file will be delivered.
 
 Increasing the shard count to 2 will double the number of output files. The 5,000 requests will be split into 2,500 requests to each shard. Every second, each shard will create a batch of data, and deliver to R2.
 
-## Why shouldn't I set the shard count to the maximum?
+## Considerations while increasing the shard count
 Increasing the shard count also increases the number of output files that your pipeline generates. This in turn increases the [cost of writing data to R2](/r2/pricing/#class-a-operations), as each file written to R2 counts as a single class A operation. Additionally, smaller files are slower, and more expensive, to query. Rather than setting the maximum, choose a shard count based on your workload needs.
 
-## How should I decide the number of shards to use?
+## Determine the right number of shards
 Choose a shard count based on these factors:
 * The number of requests per second you will make to your pipeline
 * The amount of data per second you will send to your pipeline
