@@ -201,7 +201,7 @@ export default {
 			// Parse the incoming JSON payload
 			const data = await request.json();
 
-			// Validate that we have a 'prompts' array in the payload
+			// Validate that we have a 'requests' array in the payload
 			if (!data.requests || !Array.isArray(data.requests)) {
 				return new Response(
 					JSON.stringify({
