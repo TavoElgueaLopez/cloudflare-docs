@@ -747,7 +747,7 @@ wrangler secrets-store secret create <STORE_ID> [OPTIONS]
 - `STORE_ID` <Type text="string" /> <MetaInfo text="required" />
   - The secret store public ID. You can find it and copy from the [Secrets Store tab](https://dash.cloudflare.com/?to=/:account/secrets-store/) on the dashboard.
 - `--name` <Type text="string" /> <MetaInfo text="required" />
-  - A descriptive name for the account-level secret.
+  - A descriptive name for the account-level secret. Cannot contain spaces.
 - `--value` <Type text="string" /> <MetaInfo text="test only" />
   - Value of the secret.
 	:::caution[Only use for testing]
@@ -811,7 +811,7 @@ wrangler secrets-store secret duplicate <STORE_ID> [OPTIONS]
 - `--secret-id` <Type text="string" /> <MetaInfo text="required" />
   - The ID of the secret you are duplicating.
 - `--name` <Type text="string" /> <MetaInfo text="required" />
-  - A name for the new secret.
+  - A name for the new secret. Cannot contain spaces.
 - `--scopes` <Type text="string" /> <MetaInfo text="required" />
   - Which services will have access to the new account-level secret. Currently, only `workers` is available.
 - `--comment` <Type text="string" /> <MetaInfo text="optional" />
