@@ -39,7 +39,25 @@ You may also add account secrets directly from the Workers settings on the dashb
 
 </TabItem> <TabItem label="API">
 
-[Add API instructions here]
+```bash
+curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secrets_store/stores/$STORE_ID/secrets \
+--header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+--header "Content-Type: application/json" \
+--data '[
+  {
+    "name":"<MY_SECRET_NAME>",
+    "value":"<SECRET_VALUE>",
+    "scopes":["workers"],
+    "comment":""
+	},
+  {
+		"name":"<MY_SECRET_NAME_2>",
+    "value":"<SECRET_VALUE>",
+    "scopes":["workers"],
+    "comment":""
+  }
+]'
+```
 
 </TabItem> </Tabs>
 
