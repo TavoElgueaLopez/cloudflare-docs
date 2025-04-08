@@ -29,7 +29,25 @@ If there are no account secrets yet, follow the steps below. You must have a [Su
 :::note
 You may also add account secrets directly from the Workers settings on the dashboard. You can skip to [step 2](#via-dashboard) to do that.
 :::
-<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+<Tabs> <TabItem label="Wrangler">
+
+Use the [Wrangler command](/workers/wrangler/commands/#secrets-store-secret) `secrets-store secret create`.
+
+To use the following example, replace the store ID and secret name by your actual data. You can find and copy the store ID from the [Secrets Store tab](https://dash.cloudflare.com/?to=/:account/secrets-store/) on the dashboard. A secret name cannot contain spaces.
+
+```sh
+npx wrangler secrets-store secret create <STORE_ID> --name MY_SECRETS_STORE_SECRET --scopes workers --remote
+```
+
+```sh output
+✓ Enter a secret value: › ***
+
+🔐 Creating secret... (Name: MY_SECRETS_STORE_SECRET, Value: REDACTED, Scopes: workers, Comment: undefined)
+✓ Select an account: › My account
+✅ Created secret! (ID: 13bc7498c6374a4e9d13be091c3c65f1)
+```
+
+</TabItem> <TabItem label="Dashboard">
 
 1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/) and select your account.
 2. Go to **Secrets Store** and select **Create secret**.
@@ -39,9 +57,7 @@ You may also add account secrets directly from the Workers settings on the dashb
 
 </TabItem> <TabItem label="API">
 
-:::note
-A secret `name` cannot contain spaces.
-:::
+You can find and copy the store ID from the [Secrets Store tab](https://dash.cloudflare.com/?to=/:account/secrets-store/) on the dashboard. Also, make sure your secret `name` does not contain spaces.
 
 ```bash
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secrets_store/stores/$STORE_ID/secrets \
