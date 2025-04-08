@@ -28,7 +28,7 @@ For Wrangler commands, refer to [Cloudflare Workers](/workers/wrangler/commands/
 </TabItem> <TabItem label="API">
 
 :::note
-A secret `name` cannot contain spaces.
+A secret `name` cannot contain spaces. Refer to [Secrets Store API](/api/resources/secrets_store/) for the full API documentation.
 :::
 
 ```bash
@@ -69,7 +69,7 @@ Duplicate a secret to keep the same secret value but change name, scope, or comm
 </TabItem> <TabItem label="API">
 
 :::note
-A secret `name` cannot contain spaces.
+A secret `name` cannot contain spaces. Refer to [Secrets Store API](/api/resources/secrets_store/) for the full API documentation.
 :::
 
 ```bash
@@ -105,6 +105,8 @@ You can also edit the secret **Permission scope** and **Comment**.
 
 </TabItem> <TabItem label="API">
 
+Refer to [Secrets Store API](/api/resources/secrets_store/) for the full API documentation.
+
 ```bash
 curl --request PATCH \
 https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secrets_store/stores/$STORE_ID/secrets/$SECRET_ID \
@@ -134,6 +136,8 @@ Before deleting a secret, make sure it is not deployed. Secrets Store secrets in
 5. Type in the secret name and select **Delete** to confirm.
 
 </TabItem> <TabItem label="API">
+
+Refer to [Secrets Store API](/api/resources/secrets_store/) for the full API documentation.
 
 ```bash
 curl --request DELETE \

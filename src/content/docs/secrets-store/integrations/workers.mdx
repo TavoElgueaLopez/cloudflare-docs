@@ -59,6 +59,8 @@ npx wrangler secrets-store secret create <STORE_ID> --name MY_SECRETS_STORE_SECR
 
 You can find and copy the store ID from the [Secrets Store tab](https://dash.cloudflare.com/?to=/:account/secrets-store/) on the dashboard. Also, make sure your secret `name` does not contain spaces.
 
+Refer to [Secrets Store API](/api/resources/secrets_store/) for the full API documentation.
+
 ```bash
 curl https://api.cloudflare.com/client/v4/accounts/$ACCOUNT_ID/secrets_store/stores/$STORE_ID/secrets \
 --header "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
