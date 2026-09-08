@@ -1,16 +1,21 @@
 ---
 pcx_content_type: troubleshooting
+description: Fix issues sharing your site content to Facebook.
+products:
+  - waf
 source: https://support.cloudflare.com/hc/en-us/articles/217720788-Troubleshooting-issues-sharing-to-Facebook
 title: Issues sharing to Facebook
 sidebar:
   order: 2
+tags:
+  - Debugging
 ---
 
 import { GlossaryTooltip } from "~/components";
 
 Cloudflare does not block or challenge requests from Facebook by default. However, a post of a website to Facebook returns an _Attention Required_ error in the following situations:
 
-- You have globally set the [security level](/waf/tools/security-level/) to _I'm Under Attack_.
+- You have globally [enabled Under Attack mode](/fundamentals/reference/under-attack-mode/).
 - There is a [configuration rule](/rules/configuration-rules/) or [page rule](/rules/page-rules/) setting turning on Under Attack mode.
 - There is a [custom rule](/waf/custom-rules/) with a challenge or block action that includes a Facebook IP address.
 

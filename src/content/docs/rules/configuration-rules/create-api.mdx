@@ -1,7 +1,9 @@
 ---
 title: Create a configuration rule via API
 pcx_content_type: how-to
-type: overview
+description: Create configuration rules using the Rulesets API.
+products:
+  - rules
 sidebar:
   order: 3
   label: Create a rule via API
@@ -23,6 +25,7 @@ When creating a configuration rule via API, make sure you:
 
 <Render
 	file="rules-creation-workflow"
+	product="rules"
 	params={{
 		ruleName: "a configuration rule",
 		phaseName: "http_config_settings",
@@ -57,7 +60,10 @@ The following example sets the rules of an existing phase ruleset (`{ruleset_id}
 	}}
 />
 
-<Render file="terraform-use-ref-field" params={{ addDocsLocation: true }} />
+<Render
+	file="terraform-use-ref-field-with-location"
+	product="rules"
+/>
 
 </Details>
 
@@ -83,7 +89,10 @@ The following example sets the rules of an existing phase ruleset (`{ruleset_id}
 	}}
 />
 
-<Render file="terraform-use-ref-field" params={{ addDocsLocation: true }} />
+<Render
+	file="terraform-use-ref-field-with-location"
+	product="rules"
+/>
 
 </Details>
 

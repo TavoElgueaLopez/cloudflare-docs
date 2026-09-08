@@ -1,9 +1,15 @@
 ---
 title: Create a response header transform rule via API
 pcx_content_type: how-to
+description: Create response header modification rules using the API.
+products:
+  - rules
 sidebar:
   order: 3
   label: Create a rule via API
+tags:
+  - Headers
+  - Response modification
 ---
 
 import { Details, Render, APIRequest } from "~/components";
@@ -24,6 +30,7 @@ When creating a response header transform rule via API, make sure you:
 
 <Render
 	file="rules-creation-workflow"
+	product="rules"
 	params={{
 		ruleName: "a response header transform rule",
 		phaseName: "http_response_headers_transform",
@@ -98,7 +105,10 @@ The following example configures the rules of an existing phase ruleset (`$RULES
 }
 ```
 
-<Render file="terraform-use-ref-field" params={{ addDocsLocation: true }} />
+<Render
+	file="terraform-use-ref-field-with-location"
+	product="rules"
+/>
 
 </Details>
 
@@ -166,7 +176,10 @@ The following example configures the rules of an existing phase ruleset (`$RULES
 }
 ```
 
-<Render file="terraform-use-ref-field" params={{ addDocsLocation: true }} />
+<Render
+	file="terraform-use-ref-field-with-location"
+	product="rules"
+/>
 
 </Details>
 
@@ -234,7 +247,10 @@ The following example configures the rules of an existing phase ruleset (`$RULES
 }
 ```
 
-<Render file="terraform-use-ref-field" params={{ addDocsLocation: true }} />
+<Render
+	file="terraform-use-ref-field-with-location"
+	product="rules"
+/>
 
 </Details>
 
@@ -300,7 +316,10 @@ The following example sets the rules of an existing phase ruleset (`$RULESET_ID`
 }
 ```
 
-<Render file="terraform-use-ref-field" params={{ addDocsLocation: true }} />
+<Render
+	file="terraform-use-ref-field-with-location"
+	product="rules"
+/>
 
 </Details>
 

@@ -1,6 +1,9 @@
 ---
 pcx_content_type: reference
 title: Cloudflare HTTP headers
+description: Review the HTTP request and response headers that Cloudflare adds or modifies for proxied traffic.
+products:
+  - fundamentals
 ---
 
 import { Render } from "~/components";
@@ -40,7 +43,7 @@ When no Worker subrequest is triggered, `cf-connecting-ip` reflects the client's
 
 Cloudflare provides [free IPv6 support](/network/ipv6-compatibility/) to all domains without requiring additional configuration or hardware. To support migrating to IPv6, Cloudflare's [Pseudo IPv4](/network/pseudo-ipv4/) provides an IPv6 to IPv4 translation service for all Cloudflare domains.
 
-<Render file="pseudo-ipv4-warning" /> <br />
+<Render file="pseudo-ipv4-warning" product="fundamentals" /> <br />
 
 ### CF-EW-Via
 
@@ -72,7 +75,9 @@ For example, if the original visitor IP address is `203.0.113.1` and the request
 
 If, on the other hand, an `X-Forwarded-For` header was already present in the request to Cloudflare, Cloudflare will append the IP address of the HTTP proxy connecting to Cloudflare to the header. For example, if the original visitor IP address is `203.0.113.1` and a request is proxied through two proxies: proxy A with an IP address of `198.51.100.101` and proxy B with an IP address of `198.51.100.102` before being proxied to Cloudflare, then Cloudflare will send `X-Forwarded-For: 203.0.113.1,198.51.100.101,198.51.100.102` to the origin. Proxy A will append the original visitor's IP address (`203.0.113.1`) to `X-Forwarded-For` before proxying the request to proxy B which, in turn, will append Proxy A's IP address (`198.51.100.101`) to `X-Forwarded-For` before proxying the request to Cloudflare. And finally, Cloudflare will append proxy B's IP address (`198.51.100.102`) to `X-Forwarded-For` before proxying the request to the origin.
 
-If you do not wish to receive the visitor's IP address in the `X-Forwarded-For` header, or any HTTP header that may contain the visitor's IP address, [enable the **Remove visitor IP headers** Managed Transform](/rules/transform/managed-transforms/configure/).
+If you do not wish to receive the visitor's IP address (and other intermediate proxy IP addresses) in the `X-Forwarded-For` header, or any HTTP header that may contain the visitor's IP address, [enable the **Remove visitor IP headers** Managed Transform](/rules/transform/managed-transforms/configure/). For the `X-Forwarded-For` header specifically, this Managed Transform will only remove the visitor IP from the header value when Cloudflare receives a request proxied by at least another CDN. In this case, Cloudflare will only keep the IP address of the last proxy.
+
+Using the previous example where a request was proxied twice (proxies A and B) before being proxied through Cloudflare, with **Remove visitor IP headers** enabled, Cloudflare would send `X-Forwarded-For: 198.51.100.102` to the origin, keeping only proxy B's IP address (the last proxy before Cloudflare). Refer to [Visitor IP address in the `x-forwarded-for` HTTP header](/rules/transform/managed-transforms/reference/#visitor-ip-address-in-the-x-forwarded-for-http-header) for more details.
 
 :::note
 To restore the original visitor IP address at your origin web server, Cloudflare recommends that your logs or applications look at `CF-Connecting-IP` or `True-Client-IP` instead of `X-Forwarded-For`. `CF-Connecting-IP` and `True-Client-IP` both have a consistent format containing only one IP address.
@@ -88,9 +93,13 @@ For incoming requests, the value of this header will be set to the protocol the 
 
 The `Cf-Ray` header (otherwise known as a [Ray ID](/fundamentals/reference/cloudflare-ray-id/)) is a hashed value that encodes information about the data center and the visitor's request. For example: `Cf-Ray: 230b030023ae2822-SJC`.
 
+The Cf-Ray header identifies the data center processing the request when displayed as a response header. This is represented by a three-letter code corresponding to the data center's location.
+
+The Cf-Ray header is also sent to upstream origins and may be modified to reflect the connecting data center. This occurs when a request is routed through [Argo Smart Routing](/argo-smart-routing/) or [Argo Tiered Caching](/cache/how-to/tiered-cache/). In such cases, the three-letter code in the Cf-Ray header will indicate the data center connecting to the origin, not the ingress data center.
+
 Add the [`Cf-Ray` header to your origin web server logs](/support/troubleshooting/general-troubleshooting/gathering-information-for-troubleshooting-sites/#add-the-cf-ray-header-to-your-logs) to match requests proxied to Cloudflare to requests in your server logs.
 
-Enterprise customers can also see all requests via [Cloudflare Logs](/logs/).
+Enterprise customers can see all requests via [Cloudflare Logs](/logs/), including data related to the ingress data center.
 
 ### CF-IPCountry
 
@@ -114,6 +123,10 @@ Currently, this header is a JSON object, containing only one key called `scheme`
 ### CDN-Loop
 
 `CDN-Loop` allows Cloudflare to specify how many times a request can enter Cloudflare's network before it is blocked as a looping request. For example: `CDN-Loop: cloudflare`.
+
+### CF-Connecting-O2O
+
+If [SSL for SaaS](/cloudflare-for-platforms/cloudflare-for-saas/) is used for [the SaaS provider-owned zone](/cloudflare-for-platforms/cloudflare-for-saas/saas-customers/how-it-works/), a HTTP header will be set to `cf-connecting-o2o: 1`.
 
 ### CF-Worker
 

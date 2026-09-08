@@ -1,12 +1,17 @@
 ---
 title: Customize cipher suites
 pcx_content_type: how-to
+description: Restrict which cipher suites Cloudflare uses for edge connections.
+products:
+  - ssl
 sidebar:
   order: 1
 head:
   - tag: title
     content: Customize cipher suites
 
+tags:
+  - TLS
 ---
 
 import { Render, TabItem, Tabs, DirectoryListing } from "~/components";
@@ -35,6 +40,7 @@ Currently, you have the following options:
 
 - Set custom cipher suites for a zone: either [via API](/ssl/edge-certificates/additional-options/cipher-suites/customize-cipher-suites/api/) or [on the dashboard](/ssl/edge-certificates/additional-options/cipher-suites/customize-cipher-suites/dashboard/).
 - Set custom cipher suites per-hostname: only available [via API](/api/resources/hostnames/subresources/settings/subresources/tls/methods/update/). Refer to the [how-to](/ssl/edge-certificates/additional-options/cipher-suites/customize-cipher-suites/api/) for details.
+- <Render file="cipher-suites-saas-linkout" product="ssl" />
 
 :::note
 This documentation only refers to connections [between clients and the Cloudflare network](/ssl/concepts/#edge-certificate). For connections between Cloudflare and your origin server, refer to [Origin server > Cipher suites](/ssl/origin-configuration/cipher-suites/).

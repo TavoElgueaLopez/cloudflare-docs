@@ -8,6 +8,8 @@ head:
     content: Workers RPC — TypeScript
 description: How TypeScript types for your Worker or Durable Object's RPC
   methods are generated and exposed to clients
+products:
+  - workers
 ---
 
 import { PackageManagers } from "~/components";
@@ -27,10 +29,6 @@ For example, if your client Worker had bindings to a Worker in `../sum-worker/` 
 		"types -c ./client/wrangler.jsonc -c ../sum-worker/wrangler.jsonc -c ../counter/wrangler.jsonc"
 	}
 />
-
-:::note
-If your service binding targets a `WorkerEntrypoint` that is a default export, make sure you set `entrypoint: "default"` in your Wrangler config when you configure your service binding.
-:::
 
 This will produce a `worker-configuration.d.ts` file that includes:
 

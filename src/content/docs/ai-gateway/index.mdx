@@ -1,11 +1,16 @@
 ---
 title: Cloudflare AI Gateway
+description: Observe and control your AI applications with analytics, caching, rate limiting, and model fallback through AI Gateway.
 pcx_content_type: overview
+tags:
+  - AI
 sidebar:
   order: 1
 head:
   - tag: title
     content: Overview
+products:
+  - ai-gateway
 ---
 
 import {
@@ -31,6 +36,12 @@ Check out the [Get started guide](/ai-gateway/get-started/) to learn how to conf
 
 ## Features
 
+<Feature header="Models" href="/ai/models/" cta="Browse models">
+
+Explore all AI models available through AI Gateway, including OpenAI, Anthropic, Google, and more.
+
+</Feature>
+
 <Feature header="Analytics" href="/ai-gateway/observability/analytics/" cta="View Analytics">
 
 View metrics such as the number of requests, tokens, and the cost it takes to run your application.
@@ -43,27 +54,27 @@ Gain insight on requests and errors.
 
 </Feature>
 
-<Feature header="Caching" href="/ai-gateway/configuration/caching/">
+<Feature header="Caching" href="/ai-gateway/features/caching/">
 
 Serve requests directly from Cloudflare's cache instead of the original model provider for faster requests and cost savings.
 
 </Feature>
 
-<Feature header="Rate limiting" href="/ai-gateway/configuration/rate-limiting">
+<Feature header="Rate limiting" href="/ai-gateway/features/rate-limiting/">
 
 Control how your application scales by limiting the number of requests your application receives.
 
 </Feature>
 
-<Feature header="Request retry and fallback" href="/ai-gateway/configuration/fallbacks/">
+<Feature header="Request retry and fallback" href="/ai-gateway/features/dynamic-routing/">
 
 Improve resilience by defining request retry and model fallbacks in case of an error.
 
 </Feature>
 
-<Feature header="Your favorite providers" href="/ai-gateway/providers/">
+<Feature header="Your favorite providers" href="/ai-gateway/usage/providers/">
 
-Workers AI, OpenAI, Azure OpenAI, HuggingFace, Replicate, and more work with AI Gateway.
+Workers AI, Anthropic, Google Gemini, OpenAI, Replicate, and more work with AI Gateway.
 
 </Feature>
 

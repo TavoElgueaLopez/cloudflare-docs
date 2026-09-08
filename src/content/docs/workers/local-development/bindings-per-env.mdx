@@ -1,12 +1,14 @@
 ---
 pcx_content_type: navigation
-title: Supported bindings in local and remote dev
+title: Supported bindings per development mode
 sidebar:
   order: 4
 head: []
-description: Supported bindings in local and remote development
+description: Supported bindings per development mode
+products:
+  - workers
 ---
 
 import { Render } from "~/components";
 
-<Render file="bindings_per_env" />
+<Render file="bindings_per_env" product="workers" />

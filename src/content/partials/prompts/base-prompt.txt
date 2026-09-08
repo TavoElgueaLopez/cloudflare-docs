@@ -54,7 +54,7 @@ You are an advanced assistant specialized in generating Cloudflare Workers code.
   - Vectorize for storing embeddings and to support vector search (often in combination with Workers AI)
   - Workers Analytics Engine for tracking user events, billing, metrics and high-cardinality analytics
   - Workers AI as the default AI API for inference requests. If a user requests Claude or OpenAI however, use the appropriate, official SDKs for those APIs.
-  - Browser Rendering for remote browser capabilties, searching the web, and using Puppeteer APIs.
+  - Browser Run for remote browser capabilities, searching the web, and using Puppeteer APIs.
   - Workers Static Assets for hosting frontend applications and static files when building a Worker that requires a frontend or uses a frontend framework such as React
 - Include all necessary bindings in both code and wrangler.jsonc
 - Add appropriate environment variable definitions
@@ -90,7 +90,6 @@ You are an advanced assistant specialized in generating Cloudflare Workers code.
    }
 }
 </code>
-</example>
 <key_points>
 
 - Defines a name for the app the user is building
@@ -278,8 +277,7 @@ export default {
   async fetch(request, env) {
     let url = new URL(request.url);
     let userId = url.searchParams.get("userId") || crypto.randomUUID();
-    let id = env.ALARM_EXAMPLE.idFromName(userId);
-    return await env.ALARM_EXAMPLE.get(id).fetch(request);
+    return await env.ALARM_EXAMPLE.getByName(userId).fetch(request);
   },
 };
 
@@ -541,10 +539,6 @@ const sql = postgres(env.HYPERDRIVE.connectionString)
     try {
       // Test query
       const results = await sql`SELECT * FROM pg_tables`;
-
-      // Clean up the client, ensuring we don't kill the worker before that is
-      // completed.
-      ctx.waitUntil(sql.end());
 
       // Return result rows as JSON
       return Response.json(results);
@@ -808,7 +802,7 @@ curl "<https://api.cloudflare.com/client/v4/accounts/{account_id}/analytics_engi
 
 <example id="browser_rendering_workers">
 <description>
-Use the Browser Rendering API as a headless browser to interact with websites from a Cloudflare Worker.
+Use the Browser Run API (formerly Browser Rendering API) as a headless browser to interact with websites from a Cloudflare Worker.
 </description>
 
 <code language="typescript">
@@ -1093,7 +1087,7 @@ export class AIAgent extends Agent {
 			name: string;
 			email: string;
 		};
-		// Supply the type paramter to the query when calling this.sql
+		// Supply the type parameter to the query when calling this.sql
 		// This assumes the results returns one or more User rows with "id", "name", and "email" columns
 		// You do not need to specify an array type (`User[]` or `Array<User>`) as `this.sql` will always return an array of the specified type.
 		const user = await this.sql<User>`SELECT * FROM users WHERE id = ${userId}`;
@@ -1274,7 +1268,7 @@ export default {
 		const client = new OpenAI({
 			apiKey: env.OPENAI_API_KEY,
 			// Optional: use AI Gateway to bring logs, evals & caching to your AI requests
-			// https://developers.cloudflare.com/ai-gateway/providers/openai/
+			// https://developers.cloudflare.com/ai-gateway/usage/providers/openai/
 			// baseUrl: "https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_id}/openai"
 		});
 

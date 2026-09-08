@@ -7,11 +7,18 @@ import {
 	type MdxJsxFlowElement,
 	type MdxJsxTextElement,
 } from "mdast-util-mdx";
+import type { Code } from "mdast";
 import { visit } from "unist-util-visit";
 
-let usages: Record<string, { count: number; pages: Set<string> }>;
+type Usage = { count: number; pages: Set<string> };
 
-export const getComponentsUsage = async () => {
+let usages: Record<string, Usage>;
+
+export function getComponentsUsage(): Promise<Record<string, Usage>>;
+export function getComponentsUsage(component: string): Promise<Usage>;
+export async function getComponentsUsage(
+	component?: string,
+): Promise<Usage | Record<string, Usage>> {
 	if (!usages) {
 		usages = {};
 
@@ -25,7 +32,11 @@ export const getComponentsUsage = async () => {
 		);
 
 		for (const file of files) {
-			const fullName = file.parentPath + "/" + file.name;
+			const parentPath =
+				process.platform === "win32"
+					? file.parentPath.replaceAll("\\", "/")
+					: file.parentPath;
+			const fullName = parentPath + "/" + file.name;
 			const content = await readFile(fullName, "utf8");
 
 			if (!content.includes("import")) continue;
@@ -45,8 +56,20 @@ export const getComponentsUsage = async () => {
 				usages[typed.name].count++;
 				usages[typed.name].pages.add(fullName);
 			});
+
+			visit(tree, "code", function (node: Code) {
+				if (node.lang === "mermaid") {
+					usages["Mermaid"] ||= { count: 0, pages: new Set() };
+					usages["Mermaid"].count++;
+					usages["Mermaid"].pages.add(fullName);
+				}
+			});
 		}
 	}
 
+	if (component) {
+		return usages[component] || { count: 0, pages: new Set() };
+	}
+
 	return usages;
-};
+}

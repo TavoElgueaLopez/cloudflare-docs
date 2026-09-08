@@ -1,36 +1,45 @@
 ---
 pcx_content_type: reference
-title: Access analytics
+description: Reference information for Access event analytics in Zero Trust analytics.
+products:
+  - cloudflare-one
+title: Access event analytics
 sidebar:
   order: 3
+tags:
+  - Authentication
 ---
 
-Access analytics provide Cloudflare One users with data on how Access is protecting their network.
+import { Render } from "~/components";
 
-To view Access analytics in [Zero Trust](https://one.dash.cloudflare.com), go to **Analytics**, then select **Access**.
+Access event analytics allows you to review login attempts to the applications you protect behind [Access](/cloudflare-one/access-controls/policies/). Access event analytics are powered by [Access authentication logs](/cloudflare-one/insights/logs/dashboard-logs/access-authentication-logs/).
 
-You can view the following data and filters in Access analytics:
+To view Access event analytics:
 
-**Zero Trust data:**
+1. In the [Cloudflare dashboard](https://dash.cloudflare.com/), go to **Zero Trust** > **Insights**.
+2. Go to **Dashboards**.
+3. Select **Access event analytics**.
 
-- Applications accessed
-- Failed logins
-- Connected users
+Access Event Analytics aggregates authentication activity based on your [Access policies](/cloudflare-one/access-controls/policies/policy-management/).
 
-**Logins over time:**
+<Render file="analytics/access-analytics-comparison" product="cloudflare-one" />
 
-- Total count of all logins per day
-- Filter to see logins for a specific application
+<Render file="analytics/observability-tools-note" product="cloudflare-one" />
 
-**Applications and users:**
+## Available insights
 
-- Top applications accessed
-- Top connected users
+The Access event analytics dashboard includes a time-series chart of authentication events, allowing you to identify spikes in login activity over a selected period.
 
-**Time filters:**
+- Events are displayed on the vertical axis.
+- Time (in your local timezone) is shown along the horizontal axis.
 
-- Last hour
-- Last 24 hours
-- Last 7 days
-- Last 30 days
-- Current calendar month
+The Access event analytics dashboard also shows data on your usage patterns with metrics including:
+
+- Top used applications
+- Top users
+- Top IP addresses
+- Top identities
+- Top countries
+- Top application types
+
+These insights help you detect anomalies, and optimize policy rules.

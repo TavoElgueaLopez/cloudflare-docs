@@ -1,11 +1,14 @@
 ---
 pcx_content_type: configuration
 title: path
+description: Use the Node.js path module in Cloudflare Workers for file and directory path manipulation utilities.
+products:
+  - workers
 ---
 
 import { Render } from "~/components";
 
-<Render file="nodejs-compat-howto" />
+<Render file="nodejs-compat-howto" product="workers" />
 
 The [`node:path`](https://nodejs.org/api/path.html) module provides utilities for working with file and directory paths. The `node:path` module can be accessed using:
 

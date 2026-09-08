@@ -1,9 +1,14 @@
 ---
 pcx_content_type: concept
 title: Metrics and analytics
+description: Query Workers KV operations and storage metrics via the dashboard or the GraphQL Analytics API.
 sidebar:
   order: 10
+products:
+  - kv
 ---
+
+import { DashButton } from "~/components";
 
 KV exposes analytics that allow you to inspect requests and storage across all namespaces in your account.
 
@@ -24,10 +29,11 @@ Metrics can be queried (and are retained) for the past 31 days.
 
 Per-namespace analytics for KV are available in the Cloudflare dashboard. To view current and historical metrics for a database:
 
-1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select your account.
-2. Go to [**Workers & Pages** > **KV**](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces).
-3. Select an existing namespace.
-4. Select the **Metrics** tab.
+1. In the Cloudflare dashboard, go to the **Workers KV** page.
+
+   <DashButton url="/?to=/:account/workers/kv/namespaces" />
+2. Select an existing namespace.
+3. Select the **Metrics** tab.
 
 You can optionally select a time window to query. This defaults to the last 24 hours.
 

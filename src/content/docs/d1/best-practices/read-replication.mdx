@@ -1,16 +1,21 @@
 ---
 title: Global read replication
+description: Reduce read latency and scale throughput by replicating D1 databases across regions globally.
 pcx_content_type: concept
 sidebar:
   order: 90
   badge: Beta
+products:
+  - d1
 ---
 
-import { GlossaryTooltip, Details, GitHubCode, APIRequest, Tabs, TabItem, TypeScriptExample } from "~/components"
+import { GlossaryTooltip, Details, APIRequest, Tabs, TabItem, TypeScriptExample, DashButton } from "~/components"
 
 D1 read replication can lower latency for read queries and scale read throughput by adding read-only database copies, called read replicas, across regions globally closer to clients.
 
-Your application can use read replicas with D1 [Sessions API](/d1/worker-api/d1-database/#withsession). A session encapsulates all the queries from one logical session for your application. For example, a session may correspond to all queries coming from a particular web browser session. All queries within a session read from a database instance which is as up-to-date as your query needs it to be. Sessions API ensures [sequential consistency](/d1/best-practices/read-replication/#replica-lag-and-consistency-model) for all queries in a session.
+To use read replication, you must use the [D1 Sessions API](/d1/worker-api/d1-database/#withsession), otherwise all queries will continue to be executed only by the primary database.
+
+A session encapsulates all the queries from one logical session for your application. For example, a session may correspond to all queries coming from a particular web browser session. All queries within a session read from a database instance which is as up-to-date as your query needs it to be. Sessions API ensures [sequential consistency](/d1/best-practices/read-replication/#replica-lag-and-consistency-model) for all queries in a session.
 
 To checkout D1 read replication, deploy the following Worker code using Sessions API, which will prompt you to create a D1 database and enable read replication on said database.
 
@@ -20,14 +25,50 @@ To checkout D1 read replication, deploy the following Worker code using Sessions
 To simulate how read replication can improve a worst case latency scenario, set your D1 database location hint to be in a farther away region. For example, if you are in Europe create your database in Western North America (WNAM).
 :::
 
-<GitHubCode
-repo="cloudflare/templates"
-file="d1-starter-sessions-api/src/index.ts"
-commit="3912e863acedd2be2438f8758f21374ed426fc54"
-lang="ts"
-useTypeScriptExample={true}
-lines="7-44"
-/>
+<TypeScriptExample>
+
+```ts
+export default {
+  async fetch(request, env, ctx): Promise<Response> {
+    const url = new URL(request.url);
+
+    // A. Create the Session.
+    // When we create a D1 Session, we can continue where we left off from a previous
+    // Session if we have that Session's last bookmark or use a constraint.
+    const bookmark =
+      request.headers.get("x-d1-bookmark") ?? "first-unconstrained";
+    const session = env.DB01.withSession(bookmark);
+
+    try {
+      // Use this Session for all our Workers' routes.
+      const response = await withTablesInitialized(
+        request,
+        session,
+        handleRequest,
+      );
+
+      // B. Return the bookmark so we can continue the Session in another request.
+      response.headers.set("x-d1-bookmark", session.getBookmark() ?? "");
+
+      return response;
+    } catch (e) {
+      console.error({
+        message: "Failed to handle request",
+        error: String(e),
+        errorProps: e,
+        url,
+        bookmark,
+      });
+      return Response.json(
+        { error: String(e), errorDetails: e },
+        { status: 500 },
+      );
+    }
+  },
+} satisfies ExportedHandler<Env>;
+```
+
+</TypeScriptExample>
 
 ## Primary database instance vs read replicas
 
@@ -69,7 +110,9 @@ D1 read replication achieves this by attaching a <GlossaryTooltip term="bookmark
 
 Read replication can be enabled at the database level in the Cloudflare dashboard. Check **Settings** for your D1 database to view if read replication is enabled.
 
-1. Go to [**Workers & Pages** > **D1**](https://dash.cloudflare.com/?to=/:account/workers/d1).
+1. In the Cloudflare dashboard, go to the **D1** page.
+
+   <DashButton url="/?to=/:account/workers/d1" />
 2. Select an existing database > **Settings** > **Enable Read Replication**.
 
 ### Start a session without constraints
@@ -408,7 +451,10 @@ To see the impact of read replication and check the how D1 requests are processe
 - The `meta` object within the [`D1Result`](/d1/worker-api/return-object/#d1result) return object, which includes new fields:
   - `served_by_region`
   - `served_by_primary`
-- The [Cloudflare dashboard](https://dash.cloudflare.com/?to=/:account/workers/d1), where you can view your database metrics breakdown by region that processed D1 requests.
+- The Cloudflare dashboard, where you can view your database metrics breakdown by region that processed D1 requests.
+
+## Pricing
+D1 read replication is built into D1, so you don’t pay extra storage or compute costs for read replicas. You incur the exact same D1 [usage billing](/d1/platform/pricing/#billing-metrics) with or without replicas, based on `rows_read` and `rows_written` by your queries.
 
 ## Known limitations
 
@@ -422,9 +468,9 @@ There are some known limitations for D1 read replication.
 
 To account for <GlossaryTooltip term="replica lag">replica lag</GlossaryTooltip>, it is important to consider the consistency model for D1. A consistency model is a logical framework that governs how a database system serves user queries (how the data is updated and accessed) when there are multiple database instances. Different models can be useful in different use cases. Most database systems provide [read committed](https://jepsen.io/consistency/models/read-committed), [snapshot isolation](https://jepsen.io/consistency/models/snapshot-isolation), or [serializable](https://jepsen.io/consistency/models/serializable) consistency models, depending on their configuration.
 
-#### Without Sessions API
+#### Without a consistency model framework
 
-Consider what could happen in a distributed database system.
+Consider what could happen in a distributed database system without an explicit framework to enforce a consistency model.
 
 ![Distributed replicas could cause inconsistencies without Sessions API](/images/d1/consistency-without-sessions-api.png)
 

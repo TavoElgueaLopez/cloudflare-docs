@@ -1,11 +1,13 @@
 ---
-title: JSON object
+title: List JSON object
 pcx_content_type: reference
+products:
+  - waf
+tags:
+  - JSON
 sidebar:
   order: 1
-head:
-  - tag: title
-    content: List JSON object
+  label: JSON object
 description: Reference information on the JSON object used in Lists API calls.
 ---
 
@@ -30,7 +32,6 @@ A JSON response for the [Lists API](/api/resources/rules/subresources/lists/) ha
 
 This table summarizes the object properties:
 
-{/* prettier-ignore */}
 <table>
 	<thead>
 			<tr>
@@ -186,7 +187,6 @@ A fully populated JSON object for a Bulk Redirect List item has the following st
 
 The JSON object properties for a list item are defined as follows:
 
-{/* prettier-ignore */}
 <table>
 	<thead>
 		<tr>
@@ -219,9 +219,9 @@ The JSON object properties for a list item are defined as follows:
 					Any of these formats can exist in the same custom list with IP addresses:
 					<ul>
 						<li>IPv4 address</li>
-						<li>IPv6 (up to <code>/64</code>) address</li>
-						<li>IPv4 ranges as <code>/32</code> through <code>/2</code> CIDRs</li>
-						<li>IPv6 ranges as <code>/64</code> through <code>/4</code> CIDRs</li>
+						<li>IPv6 address</li>
+						<li>IPv4 ranges as <code>/8</code> through <code>/32</code> CIDRs</li>
+						<li>IPv6 ranges as <code>/12</code> through <code>/128</code> CIDRs</li>
 					</ul>
 				</p>
 			</td>

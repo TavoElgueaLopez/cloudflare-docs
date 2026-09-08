@@ -1,48 +1,55 @@
 ---
 pcx_content_type: how-to
 title: Find account and zone IDs
+description: Locate your Cloudflare account ID and zone ID in the dashboard for use with the API.
 sidebar:
   order: 6
-
+products:
+  - fundamentals
 ---
+
+import { DashButton, Steps } from "~/components";
 
 Once you [set up a new account](/fundamentals/account/) and [add your domain](/fundamentals/manage-domains/add-site/) to Cloudflare, you may need access to your zone and account IDs for API operations.
 
-## Copy your Account ID
+## Copy your account ID
 
-1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/login).
-2. From the **Accounts** page, locate your account.
-3. Select the menu button at the end of the account row.
-![Screenshot of the Overview page with the API section highlighted](~/assets/images/fundamentals/get-started/overview-account-id.png)
+<Steps>
+1. Open the Cloudflare dashboard.
 
-4. Select **Copy account ID**.
+   <DashButton url="/?to=/:account/home" />
 
-### Users with a single account
+2. Select **Search** (or press `CMD/CTRL + K` from any page).
+3. Enter `Copy account ID` and select the result to copy.
 
-To copy the account ID when you only have one account:
+   ![Search results showing the Copy account ID command](~/assets/images/fundamentals/get-started/quick-search-account-id.png)
+</Steps>
 
-1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/login).
-2. From **Account Home** page, select the menu button next to your account name.
-3. From the list that appears, select **Copy account ID**.
-![Screenshot of the Overview page with the API section highlighted](~/assets/images/fundamentals/get-started/single-account-id.png)
+## Copy your zone ID
 
-## Copy your Zone ID
+<Steps>
+1. In the Cloudflare dashboard, select the domain you want the zone ID for.
 
-1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/login).
-2. From the **Accounts** page, locate and select your account.
-3. From the **Overview** page for your account, locate the **API** section towards the bottom of the page.
+   <DashButton url="/?to=/:account/domains/overview" />
 
-![Screenshot of the Overview page with the API section highlighted](~/assets/images/fundamentals/get-started/dash-overview-api-highlighted.png)
+2. On the domain **Overview** page, locate the **API** section towards the bottom of the page.
 
-4. Under **Zone ID** select **Click to copy**. You can also find your **Account ID** under the **API** section.
+   ![Domain Overview page with the API section highlighted](~/assets/images/fundamentals/get-started/dash-overview-api-highlighted.png)
 
-## Find account ID (Workers and Pages)
+3. Select the copy button next to **Zone ID**. You can also copy **Account ID** from this section.
+</Steps>
+
+## Find account ID in Workers & Pages
 
 You can also find your account ID from the **Workers & Pages** section of your account.
 
-1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/login).
-2. Select your account.
-3. Go to **Workers & Pages**. The **Account details** section contains your **Account ID**.
-4. To copy the Account ID, select **Click to copy**.
+<Steps>
+1. In the Cloudflare dashboard, go to **Workers & Pages**.
 
-![Screenshot of the Workers & Pages Overview page with the account ID section highlighted](~/assets/images/fundamentals/get-started/workers-account-id.png)
+   <DashButton url="/?to=/:account/workers-and-pages" />
+
+2. Locate the **Account Details** section.
+3. Select the copy button next to **Account ID**.
+
+   ![Workers & Pages Overview page with the Account ID section highlighted](~/assets/images/fundamentals/get-started/workers-account-id.png)
+</Steps>

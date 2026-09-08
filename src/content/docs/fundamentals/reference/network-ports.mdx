@@ -1,6 +1,9 @@
 ---
 pcx_content_type: reference
 title: Network ports
+description: Review the HTTP and HTTPS ports Cloudflare proxies by default and how to enable proxy support for additional ports.
+products:
+  - fundamentals
 ---
 
 import { Details, Render, RuleID } from "~/components";
@@ -71,8 +74,7 @@ Block traffic on ports other than 80 and 443 in Cloudflare paid plans by doing o
 
 Ports 80 and 443 are the only ports compatible with:
 
-- HTTP/HTTPS traffic within China data centers for domains that have the **China Network** enabled, and
-- Proxying of [Cloudflare Apps](https://cloudflareapps.com/apps/developer/docs/getting-started)
+- HTTP/HTTPS traffic within China data centers for domains that have the **China Network** enabled
 
 <Render file="open-ports-blocked-traffic" product="waf" /> <br />
 

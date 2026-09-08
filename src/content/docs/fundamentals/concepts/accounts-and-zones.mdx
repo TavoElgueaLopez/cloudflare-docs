@@ -1,10 +1,14 @@
 ---
 pcx_content_type: concept
 title: Accounts, zones, and profiles
+description: Understand how Cloudflare organizes resources into user profiles, accounts, and zones, and where settings and products apply.
 sidebar:
   order: 4
-
+products:
+  - fundamentals
 ---
+
+import { Render } from "~/components";
 
 Within the Cloudflare ecosystem, there are three organizing concepts that control where specific settings live: user profiles, accounts, and zones.
 
@@ -30,17 +34,15 @@ subgraph User profile
 end
 ```
 
-***
+---
 
 ## User profiles
 
-Each user has a profile that contains several settings, such as [Communication preferences](/fundamentals/account/customize-account/#communication-preference/) and [Language preferences](/fundamentals/account/customize-account/#language-preference/).
-
-To access your profile, select the user icon and then **My Profile** from any page within the [Cloudflare dashboard](https://dash.cloudflare.com).
+<Render file="user-profiles" product="fundamentals" />
 
 ## Accounts
 
-An account refers to an organization account, which contains one or more users and zones. Users can belong to multiple accounts, and each account maintains its own settings, including [billing profiles](/billing/create-billing-profile/), [account members](/fundamentals/manage-members/), [lists](/waf/tools/lists/), and other configurations.
+An account refers to an organization account, which contains one or more users and zones. Users can belong to multiple accounts, and each account maintains its own settings, including [billing profiles](/billing/get-started/create-billing-profile/), [account members](/fundamentals/manage-members/), [lists](/waf/tools/lists/), and other configurations.
 
 Several account-level products - such as [Workers](/workers/), [Pages](/pages/), [Security Center](/security-center/), and [Bulk redirects](/rules/url-forwarding/bulk-redirects/) - can affect some or all zones contained within that account.
 

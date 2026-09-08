@@ -1,12 +1,17 @@
 ---
 title: Security levels
 pcx_content_type: reference
+description: Recommended cipher suite security levels for different use cases.
+products:
+  - ssl
 sidebar:
   order: 2
 head:
   - tag: title
     content: Cipher suite recommendations
 
+tags:
+  - TLS
 ---
 
 import { Render, Details } from "~/components";
@@ -29,7 +34,7 @@ Offers the best security and performance, limiting your range of clients to mode
 
 </ Details>
 
-<Render file="cipher-suites-api-linkout" />
+<Render file="cipher-suites-api-linkout" product="ssl" />
 
 ## Compatible
 
@@ -41,7 +46,7 @@ Provides broader compatibility with somewhat weaker security. Supports TLS 1.2-1
 
 </ Details>
 
-<Render file="cipher-suites-api-linkout" />
+<Render file="cipher-suites-api-linkout" product="ssl" />
 
 ## Legacy (default)
 

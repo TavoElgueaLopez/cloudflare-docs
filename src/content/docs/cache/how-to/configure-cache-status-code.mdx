@@ -1,8 +1,14 @@
 ---
 title: Cache by status code
 pcx_content_type: how-to
-
+description: Cache responses based on origin HTTP status codes.
+products:
+  - cache
+tags:
+  - REST API
 ---
+
+import { Render } from "~/components"
 
 Customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as `STALE` or discarded from cache. Status codes are returned by a resource's origin.
 
@@ -10,19 +16,15 @@ Setting cache TTL based on response status overrides the [default cache behavior
 
 ## Caching limits
 
-The maximum caching limit for Free, Pro, and Business customers is 512 MB per file, and the maximum caching limit for Enterprise customers is 5 GB per file. If you need to raise the limits, contact your Customer Success Manager.
+The maximum caching limit for Free, Pro, and Business customers is 512 MB per file, and the maximum caching limit for Enterprise customers is 5 GB per file. If you need to raise the limits, contact your account team.
 
-## Edge TTL
-
-By default, Cloudflare caches certain HTTP response codes with the following Edge Cache TTL when a `cache-control` directive or `expires` response header are not present.
-
-| HTTP status code | Default TTL |
-| ---------------- | ----------- |
-| 200, 206, 301    | 120m        |
-| 302, 303         | 20m         |
-| 404, 410         | 3m          |
-
-All other status codes are not cached by default.
+<Render
+  file="edge-ttl"
+	product="cache"
+	params={{
+		conditional: "dedicated-cache-tile"
+	}}
+/>
 
 ## Set cache TTL by response status via the Cloudflare dashboard
 

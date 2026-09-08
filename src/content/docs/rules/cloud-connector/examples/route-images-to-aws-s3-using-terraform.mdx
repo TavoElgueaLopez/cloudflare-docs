@@ -1,10 +1,13 @@
 ---
 pcx_content_type: example
 summary: Route requests with a URI path starting with `/images` to a specific AWS S3 bucket with Cloud Connector using Terraform.
-products:
-  - Cloud Connector
+products: [cloud-connector]
 title: Route /images to an S3 Bucket using Terraform
 description: Route requests with a URI path starting with `/images` to a specific AWS S3 bucket with Cloud Connector using Terraform.
+tags:
+  - Terraform
+  - AWS
+  - S3
 ---
 
 import { Render } from "~/components";
@@ -28,4 +31,4 @@ resource "cloudflare_cloud_connector_rules" "serve_images_in_aws" {
 }
 ```
 
-<Render file="terraform-additional-resources" />
+<Render file="terraform-additional-resources" product="rules" />

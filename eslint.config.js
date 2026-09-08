@@ -26,7 +26,17 @@ export default [
 		...pluginReact.configs.flat["jsx-runtime"],
 	},
 	{
-		ignores: [".astro/", ".wrangler/", "dist/", ".github/"],
+		ignores: [
+			".astro/",
+			".wrangler/",
+			".flue/dist/",
+			".flue/.flue-vite/",
+			".flue/.wrangler/",
+			"dist/",
+			".github/",
+			// Generated at prebuild/predev by bin/fetch-skills.ts (gitignored).
+			"skills/",
+		],
 	},
 	{
 		rules: {
@@ -34,7 +44,24 @@ export default [
 			"@typescript-eslint/no-explicit-any": "off",
 			"@typescript-eslint/no-unused-vars": [
 				"error",
-				{ ignoreRestSiblings: true },
+				{
+					ignoreRestSiblings: true,
+					argsIgnorePattern: "^_",
+					varsIgnorePattern: "^_",
+					caughtErrorsIgnorePattern: "^_",
+					destructuredArrayIgnorePattern: "^_",
+				},
+			],
+		},
+	},
+	{
+		files: ["src/scripts/**/*.{js,ts}"],
+		rules: {
+			"no-console": [
+				"error",
+				{
+					allow: ["warn", "error"],
+				},
 			],
 		},
 	},

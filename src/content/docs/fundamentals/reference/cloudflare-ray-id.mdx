@@ -1,6 +1,9 @@
 ---
 pcx_content_type: reference
 title: Cloudflare Ray ID
+description: Use Cloudflare Ray IDs to identify and trace individual requests through Security Events, Log Explorer, and server logs.
+products:
+  - fundamentals
 ---
 
 A **Cloudflare Ray ID** is an identifier given to every request that goes through Cloudflare.
@@ -28,6 +31,12 @@ Additionally, you can [add filters](/waf/analytics/security-events/#adjust-displ
 ![Example of adding a new filter in Security Events for the Block action](~/assets/images/waf/events-add-filter.png)
 
 Please note that Security Events may use sampled data to improve performance. If sampled data is applied to your search, you might not see all events, and filters might not return the expected results. To display more events, select a smaller timeframe.
+
+### Log Explorer
+
+[Log Explorer](/log-explorer/) provides access to Cloudflare logs with all the context available within the Cloudflare platform. 
+You can monitor security and performance issues with custom dashboards or investigate and troubleshoot issues with log search.
+Log explorer allows you to [build queries](/log-explorer/log-search/) for filtering specific Ray IDs.
 
 ### Logs
 
